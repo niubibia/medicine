@@ -1,0 +1,39 @@
+server:
+  port: 8087
+  servlet:
+    context-path:
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.newer.medicine1.domain
+logging:
+  level:
+    org.springframework.security: info
+    com.newer.hospital.mapper: debug
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: qqqwww123
+    url: jdbc:mysql://cdb-64n14hbi.bj.tencentcdb.com:10083/medecine?useSSL=false&serverTimezone=UTC
+  jackson:
+    serialization:
+      indent-output: true
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1ms
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800
+  tokenHead: Bearer
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+
