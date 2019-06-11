@@ -15,7 +15,7 @@
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
                         connectionURL="jdbc:mysql://cdb-64n14hbi.bj.tencentcdb.com:10083/medicine?useSSL=false&amp;serverTimezone=UTC"
                         userId="root"
-                        password="qqqwww123">
+                        password="root">
             <!-- 识别主键 -->
             <property name="useInformationSchema" value="true"></property>
             <property name="remarks" value="true"/>

@@ -13,7 +13,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: qqqwww123
+    password: root
     url: jdbc:mysql://cdb-64n14hbi.bj.tencentcdb.com:10083/medecine?useSSL=false&serverTimezone=UTC
   jackson:
     serialization:
