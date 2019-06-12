@@ -14,7 +14,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: qqqwww123
-    url: jdbc:mysql://cdb-64n14hbi.bj.tencentcdb.com:10083/medecine?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://cdb-64n14hbi.bj.tencentcdb.com:10083/medicine?useSSL=false&serverTimezone=UTC
   jackson:
     serialization:
       indent-output: true
