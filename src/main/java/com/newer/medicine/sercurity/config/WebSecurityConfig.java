@@ -101,7 +101,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             // Un-secure 登录 验证码
             .antMatchers(
-                    "/api/**",
+                   "/api/**",
+                    "/page/**",
                     "/api/auth/**",
                     "/api/verifyCode/**",
                     "/api/global_json"
