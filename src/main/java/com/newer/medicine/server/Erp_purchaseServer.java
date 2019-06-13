@@ -12,8 +12,8 @@ import java.util.List;
 public class Erp_purchaseServer {
     @Autowired
     private Erp_purchaseMapper erp_purchaseMapper;
-    public  List<Erp_purchase> selectErp_applyasset(){
-        List<Erp_purchase> erp_applyassetList=erp_purchaseMapper.selectErp_applyasset();
+    public  List<Erp_purchase> selectErp_applyasset(String PURC_TITLE,String PURC_NAME,int pageIndex,int pageSize){
+        List<Erp_purchase> erp_applyassetList=erp_purchaseMapper.selectErpApplyasset(PURC_TITLE,PURC_NAME,pageIndex,pageSize);
         return erp_applyassetList;
     }
 
@@ -21,4 +21,10 @@ public class Erp_purchaseServer {
 
         return erp_purchaseMapper.selectErp_applyassetCount();
     }
+
+    //查询详情
+    public Erp_purchase selectById(String PURC_ID){
+        return erp_purchaseMapper.selectById(PURC_ID);
+    }
+
 }

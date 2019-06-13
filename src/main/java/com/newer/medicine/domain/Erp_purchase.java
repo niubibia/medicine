@@ -17,8 +17,35 @@ public class Erp_purchase implements Serializable {
     private String CREATE;//创建人
     private String CREATETIME;//创建时间
     private Integer ISVA;//是否有效
+    private String RAW_NAME;//原材料名字
+    private double PUR_TOTAL_NUMBER;//单价
+    private double PUR_TOTAL_PRICE;//总价
 
     public Erp_purchase() {
+    }
+
+    public String getRAW_NAME() {
+        return RAW_NAME;
+    }
+
+    public void setRAW_NAME(String RAW_NAME) {
+        this.RAW_NAME = RAW_NAME;
+    }
+
+    public double getPUR_TOTAL_NUMBER() {
+        return PUR_TOTAL_NUMBER;
+    }
+
+    public void setPUR_TOTAL_NUMBER(double PUR_TOTAL_NUMBER) {
+        this.PUR_TOTAL_NUMBER = PUR_TOTAL_NUMBER;
+    }
+
+    public double getPUR_TOTAL_PRICE() {
+        return PUR_TOTAL_PRICE;
+    }
+
+    public void setPUR_TOTAL_PRICE(double PUR_TOTAL_PRICE) {
+        this.PUR_TOTAL_PRICE = PUR_TOTAL_PRICE;
     }
 
     public static long getSerialVersionUID() {
