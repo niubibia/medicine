@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.newer.medicine.mapper.LoadImageMapper">
+
+    <resultMap id="loadMap" type="LoadImage">
+        <result property="price" column="price"></result>
+    </resultMap>
+
+    <select id="loadSell" resultMap="loadMap">
+            select sum(sale_num*(sale_money*sale_discount*0.1) ) price from
+            erp_annex a,erp_sctockmp s
+            <where>
+                s.sale_date like '2017-%' and month(sale_date)=#{month}
+                and s.annex_id=a.annex_id and s.annex_id=#{annexId};
+            </where>
+    </select>
+
+    <select id="loadPay" resultMap="loadMap">
+            select sum(p.FDPROLISTMX_MONEY*p.FDPROLISTMX_COUNT) as price
+            from erp_prolistmxsmall p,erp_ledgyr l,erp_annex a
+            <where>
+                p.fdprolistmx_time like '2017-%' and month(fdprolistmx_time)=#{month}
+                and a.annex_id=l.annex_id
+                and l.fdpro_id=p.fdpro_id
+                and a.annex_id=#{annexId};
+            </where>
+    </select>
+</mapper>
