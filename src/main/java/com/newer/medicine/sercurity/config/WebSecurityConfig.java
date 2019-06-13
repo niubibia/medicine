@@ -1,8 +1,6 @@
 package com.newer.medicine.sercurity.config;
 
 
-
-
 import com.newer.medicine.sercurity.controller.JwtAuthenticationEntryPoint;
 import com.newer.medicine.sercurity.controller.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
