@@ -14,29 +14,23 @@ import java.util.Date;
 public class JwtUser implements UserDetails {
 
     private static final long serialVersionUID = 7407700876251417013L;
-    private final   Integer id;
-    private final  Integer state;
+    //账号
     private final String username;
-    private final String password;
-    private final String email;
     private final  Collection<? extends GrantedAuthority> authorities;
-    private final boolean enabled;
-    private final Date lastPasswordResetDate;
+    private final String password;
+    private final boolean isEnabled;
+    private final String name;
 
-
-    public JwtUser(Integer id, Integer state, String username, String password, String email, Collection<? extends GrantedAuthority> authorities, boolean enabled, Date lastPasswordResetDate) {
-        this.id = id;
-        this.state = state;
+    public JwtUser(String username, Collection<? extends GrantedAuthority> authorities, String password, boolean isEnabled, String name) {
         this.username = username;
-        this.password = password;
-        this.email = email;
         this.authorities = authorities;
-        this.enabled = enabled;
-        this.lastPasswordResetDate = lastPasswordResetDate;
+        this.password = password;
+        this.isEnabled = isEnabled;
+        this.name = name;
     }
 
-    public Integer getState() {
-        return state;
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -77,20 +71,8 @@ public class JwtUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return isEnabled;
     }
 
-    @JsonIgnore
-    public Integer getId() {
-        return id;
-    }
 
-    public String getEmail() {
-        return email;
-    }
-
-    @JsonIgnore
-    public Date getLastPasswordResetDate() {
-        return lastPasswordResetDate;
-    }
 }

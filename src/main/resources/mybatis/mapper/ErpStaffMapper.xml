@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.medicine.mapper.ErpStaffMapper">
+  <resultMap id="BaseResultMap" type="com.newer.medicine.domain.ErpStaff">
+   
+    <id column="sta_id" jdbcType="VARCHAR" property="staId" />
+    <result column="depa_id" jdbcType="VARCHAR" property="depaId" />
+    <result column="ANNEX_ID" jdbcType="VARCHAR" property="annexId" />
+    <result column="sta_serial" jdbcType="VARCHAR" property="staSerial" />
+    <result column="sta_name" jdbcType="VARCHAR" property="staName" />
+    <result column="sta_email" jdbcType="VARCHAR" property="staEmail" />
+    <result column="sta_pwd" jdbcType="VARCHAR" property="staPwd" />
+    <result column="sta_age" jdbcType="DECIMAL" property="staAge" />
+    <result column="sta_sex" jdbcType="VARCHAR" property="staSex" />
+    <result column="sta_entryTime" jdbcType="VARCHAR" property="staEntrytime" />
+    <result column="sta_dimissionTime" jdbcType="VARCHAR" property="staDimissiontime" />
+    <result column="sta_img" jdbcType="VARCHAR" property="staImg" />
+    <result column="sta_backgd" jdbcType="VARCHAR" property="staBackgd" />
+    <result column="ISVA" jdbcType="INTEGER" property="isva" />
+    <result column="createTime" jdbcType="VARCHAR" property="createtime" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="dname" property="dname"></result>
+    <result column="annexName" property="annexName"></result>
+    <collection property="authorities" ofType="Authority">
+      <id property="id" column="id"/>
+      <result property="name" column="name"/>
+      <result property="ROLE_NAME" column="ROLE_NAME"></result>
+    </collection>
+  </resultMap>
+
+  <select id="findByUsername" resultMap="BaseResultMap">
+        select
+        es.*,au.ROLE_ID,au.name,au.ROLE_NAME
+        from erp_staff es,erp_role au,erp_personel_role ua
+        where es.ISVA=1 and es.sta_email=#{staEmail} and es.sta_id = ua.sta_id and ua.ROLE_ID = au.ROLE_ID
+    </select>
+
+</mapper>
