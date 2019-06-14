@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.newer.medicine.mapper.Erp_KeidsMapper" >
+    <resultMap id="BaseResultMap" type="Erp_Keids" >
+    <id column="KIN_ID" property="kinId" jdbcType="VARCHAR" />
+    <result column="TYPE_ID" property="typeId" jdbcType="VARCHAR" />
+    <result column="KIN_SERIAL" property="kinSerial" jdbcType="VARCHAR" />
+    <result column="KIN_BARCODE" property="kinBarcode" jdbcType="VARCHAR" />
+    <result column="KIN_NAME" property="kinName" jdbcType="VARCHAR" />
+    <result column="resName" property="resName" jdbcType="VARCHAR" />
+    <result column="KIN_CONTENT" property="kinContent" jdbcType="DECIMAL" />
+    <result column="KIN_EXPIRATION" property="kinExpiration" jdbcType="VARCHAR" />
+    <result column="KIN_SELLINF" property="kinSellinf" jdbcType="DECIMAL" />
+    <result column="KIN_PRICE" property="kinPrice" jdbcType="DECIMAL" />
+    <result column="KIN_STOST" property="kinStost" jdbcType="DECIMAL" />
+    <result column="ISVA" property="isva" jdbcType="INTEGER" />
+    <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+    <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="bure" property="bure" jdbcType="VARCHAR" />
+
+
+    </resultMap>
+
+    <!-- 查询所有商品，下拉框 -->
+    <select id="findStation" resultMap="BaseResultMap">
+   		select * from erp_kinds where isva=1
+   </select>
+
+
+</mapper>
