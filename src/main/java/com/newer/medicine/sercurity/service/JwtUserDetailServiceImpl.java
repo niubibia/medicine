@@ -2,7 +2,9 @@ package com.newer.medicine.sercurity.service;
 
 
 import com.newer.medicine.domain.Admins;
+import com.newer.medicine.domain.ErpStaff;
 import com.newer.medicine.mapper.AdminsMapper;
+import com.newer.medicine.mapper.ErpStaffMapper;
 import com.newer.medicine.sercurity.domain.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,15 +16,15 @@ import org.springframework.stereotype.Service;
 public class JwtUserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
-    private AdminsMapper adminsMapper;
+    private ErpStaffMapper erpStaffMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Admins admins = this.adminsMapper.findByUsername(username);
-        if(admins==null){
+        ErpStaff erpStaff = this.erpStaffMapper.findByUsername(username);
+        if(erpStaff==null){
             throw  new UsernameNotFoundException("No User found with UserName :"+username);
         }else{
-          return JwtUserFactory.create(admins);
+          return JwtUserFactory.create(erpStaff);
         }
     }
 }

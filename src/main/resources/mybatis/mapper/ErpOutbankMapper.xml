@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.medicine.mapper.ErpOutbankMapper">
+  <resultMap id="BaseResultMap" type="com.newer.medicine.domain.ErpOutbank">
+    <id column="OB_ID" jdbcType="VARCHAR" property="obId" />
+    <result column="KINORD_ID" jdbcType="VARCHAR" property="kinordId" />
+    <result column="OB_NUMBER" jdbcType="VARCHAR" property="obNumber" />
+    <result column="OB_TIME" jdbcType="VARCHAR" property="obTime" />
+    <result column="OB_WARECOUNT" jdbcType="INTEGER" property="obWarecount" />
+    <result column="OB_BUSIBESS" jdbcType="INTEGER" property="obBusibess" />
+    <result column="OB_STAFFID" jdbcType="VARCHAR" property="obStaffid" />
+    <result column="ISVA" jdbcType="INTEGER" property="isva" />
+    <result column="CREATETIME" jdbcType="VARCHAR" property="createtime" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    OB_ID, KINORD_ID, OB_NUMBER, OB_TIME, OB_WARECOUNT, OB_BUSIBESS, OB_STAFFID, ISVA, 
+    CREATETIME, CREATER, REMARK
+  </sql>
+  <select id="selectByExample" parameterType="com.newer.medicine.domain.ErpOutbankExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from erp_outbank
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from erp_outbank
+    where OB_ID = #{obId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from erp_outbank
+    where OB_ID = #{obId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.newer.medicine.domain.ErpOutbank">
+    insert into erp_outbank (OB_ID, KINORD_ID, OB_NUMBER, 
+      OB_TIME, OB_WARECOUNT, OB_BUSIBESS, 
+      OB_STAFFID, ISVA, CREATETIME, 
+      CREATER, REMARK)
+    values (#{obId,jdbcType=VARCHAR}, #{kinordId,jdbcType=VARCHAR}, #{obNumber,jdbcType=VARCHAR}, 
+      #{obTime,jdbcType=VARCHAR}, #{obWarecount,jdbcType=INTEGER}, #{obBusibess,jdbcType=INTEGER}, 
+      #{obStaffid,jdbcType=VARCHAR}, #{isva,jdbcType=INTEGER}, #{createtime,jdbcType=VARCHAR}, 
+      #{creater,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.newer.medicine.domain.ErpOutbank">
+    insert into erp_outbank
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="obId != null">
+        OB_ID,
+      </if>
+      <if test="kinordId != null">
+        KINORD_ID,
+      </if>
+      <if test="obNumber != null">
+        OB_NUMBER,
+      </if>
+      <if test="obTime != null">
+        OB_TIME,
+      </if>
+      <if test="obWarecount != null">
+        OB_WARECOUNT,
+      </if>
+      <if test="obBusibess != null">
+        OB_BUSIBESS,
+      </if>
+      <if test="obStaffid != null">
+        OB_STAFFID,
+      </if>
+      <if test="isva != null">
+        ISVA,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="creater != null">
+        CREATER,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="obId != null">
+        #{obId,jdbcType=VARCHAR},
+      </if>
+      <if test="kinordId != null">
+        #{kinordId,jdbcType=VARCHAR},
+      </if>
+      <if test="obNumber != null">
+        #{obNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="obTime != null">
+        #{obTime,jdbcType=VARCHAR},
+      </if>
+      <if test="obWarecount != null">
+        #{obWarecount,jdbcType=INTEGER},
+      </if>
+      <if test="obBusibess != null">
+        #{obBusibess,jdbcType=INTEGER},
+      </if>
+      <if test="obStaffid != null">
+        #{obStaffid,jdbcType=VARCHAR},
+      </if>
+      <if test="isva != null">
+        #{isva,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.newer.medicine.domain.ErpOutbank">
+    update erp_outbank
+    <set>
+      <if test="kinordId != null">
+        KINORD_ID = #{kinordId,jdbcType=VARCHAR},
+      </if>
+      <if test="obNumber != null">
+        OB_NUMBER = #{obNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="obTime != null">
+        OB_TIME = #{obTime,jdbcType=VARCHAR},
+      </if>
+      <if test="obWarecount != null">
+        OB_WARECOUNT = #{obWarecount,jdbcType=INTEGER},
+      </if>
+      <if test="obBusibess != null">
+        OB_BUSIBESS = #{obBusibess,jdbcType=INTEGER},
+      </if>
+      <if test="obStaffid != null">
+        OB_STAFFID = #{obStaffid,jdbcType=VARCHAR},
+      </if>
+      <if test="isva != null">
+        ISVA = #{isva,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where OB_ID = #{obId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.newer.medicine.domain.ErpOutbank">
+    update erp_outbank
+    set KINORD_ID = #{kinordId,jdbcType=VARCHAR},
+      OB_NUMBER = #{obNumber,jdbcType=VARCHAR},
+      OB_TIME = #{obTime,jdbcType=VARCHAR},
+      OB_WARECOUNT = #{obWarecount,jdbcType=INTEGER},
+      OB_BUSIBESS = #{obBusibess,jdbcType=INTEGER},
+      OB_STAFFID = #{obStaffid,jdbcType=VARCHAR},
+      ISVA = #{isva,jdbcType=INTEGER},
+      CREATETIME = #{createtime,jdbcType=VARCHAR},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where OB_ID = #{obId,jdbcType=VARCHAR}
+  </update>
+
+
+</mapper>

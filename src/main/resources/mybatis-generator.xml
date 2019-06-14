@@ -9,7 +9,7 @@
     <context id="testTables" targetRuntime="MyBatis3">
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
-            <property name="suppressAllComments" value="false"/>
+            <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
@@ -52,6 +52,6 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 指定数据库表  多个表示,可用多个table标签-->
-        <table schema="medicine" tableName="erp_annex"></table>
+        <!--<table schema="medicine" tableName="erp_proindent"></table>-->
     </context>
 </generatorConfiguration>

@@ -18,11 +18,11 @@ public class GlobalExceptionHandler {
     //当抛出HospitalException的异常时，由以下方法处理该异常
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public ErrorInfo<String> handlerException(HttpServletRequest request, MyException e){
+    public ErrorInfo<String> handlerException(HttpServletRequest request, MyException e) {
         ErrorInfo<String> errorInfo = new ErrorInfo<>();
         errorInfo.setMessage(e.getMessage());
         errorInfo.setUrl(request.getRequestURI());
-        errorInfo.setCode(ErrorInfo.ERROR+"");
+        errorInfo.setCode(ErrorInfo.ERROR + "");
         errorInfo.setData("未知错误");
         return errorInfo;
     }
