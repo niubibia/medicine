@@ -29,28 +29,28 @@ public class WebLogAspect {
 
     //定义切入点
     @Pointcut("execution(public * com.*.*.controller.*.*(..))")
-    public void webLog(){
+    public void webLog() {
     }
 
     @Before(value = "webLog()")
-    public void doBefore(JoinPoint point){
+    public void doBefore(JoinPoint point) {
         logger.info("WebLogAspect.doBefore................");
         startTime.set(System.currentTimeMillis());
         //获取请求对象
-        ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-       HttpServletRequest request = attributes.getRequest();
-       logger.info("IP : "+request.getRemoteAddr());
-       logger.info("URL:" + request.getRequestURL().toString());
-       logger.info("HTTP_METHOD:" +request.getMethod());
-       logger.info("CLASS_NAME : " + point.getSignature().getDeclaringTypeName()+"."+point.getSignature().getName());
-       logger.info("ARGS : " + Arrays.toString(point.getArgs()));
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        logger.info("IP : " + request.getRemoteAddr());
+        logger.info("URL:" + request.getRequestURL().toString());
+        logger.info("HTTP_METHOD:" + request.getMethod());
+        logger.info("CLASS_NAME : " + point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName());
+        logger.info("ARGS : " + Arrays.toString(point.getArgs()));
     }
 
-    @AfterReturning(value = "webLog()",returning = "ret")
-    public void doAferReturing(Object ret){
+    @AfterReturning(value = "webLog()", returning = "ret")
+    public void doAferReturing(Object ret) {
         logger.info("WebLogAspect.doAfterReuring.............");
         logger.info("Resp: " + ret);
-        logger.info("Spend Time : " + (System.currentTimeMillis()-startTime.get()));
+        logger.info("Spend Time : " + (System.currentTimeMillis() - startTime.get()));
     }
 
 }

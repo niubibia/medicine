@@ -44,7 +44,9 @@
 
             </div>
 
-            <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+            <table class="layui-hide" id="LAY_table_user" lay-filter="user">
+                <tbody></tbody>
+            </table>
         </div>
 
 
@@ -337,7 +339,7 @@
 
     //统计图初始化
     $(function() {
-        eCharts(new Date().getFullYear());
+        //eCharts(new Date().getFullYear());
 
     })
     function eCharts(date) {
@@ -785,6 +787,28 @@
     <a class="layui-btn layui-btn-xs layui-btn-disabled layui-btn-mini" lay-event="delss">质检</a>
     {{#  } }}
 
+</script>
+<script src="../res/js/layer.js"></script>
+<script src="../res/js/hospital.js"></script>
+<script src="../res/js/jquery-2.1.3.min.js"></script>
+<script>
+    $(()=>{
+        loadPurchase();
+    })
+    function loadPurchase() {
+        $.ajax({
+            typr:"GET",
+            url:HOST_URL+"selectErpApplyasset",
+          //  headers:createAuthorizationTokenHeader(),
+            dataType:"json",
+            success:function (data) {
+console.log(data)
+                let s="";
+
+            }
+
+        })
+    }
 </script>
 </body>
 </html>

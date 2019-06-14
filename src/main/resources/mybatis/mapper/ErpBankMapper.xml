@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.medicine.mapper.ErpBankMapper">
+  <resultMap id="BaseResultMap" type="com.newer.medicine.domain.ErpBank">
+    <id column="BANK_ID" jdbcType="VARCHAR" property="bankId" />
+    <result column="BANK_NUMBER" jdbcType="VARCHAR" property="bankNumber" />
+    <result column="BANK_TIME" jdbcType="VARCHAR" property="bankTime" />
+    <result column="BANK_COUNT" jdbcType="INTEGER" property="bankCount" />
+    <result column="BANK_STAFFID" jdbcType="VARCHAR" property="bankStaffid" />
+    <result column="ISVA" jdbcType="INTEGER" property="isva" />
+    <result column="CREATETIME" jdbcType="VARCHAR" property="createtime" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="REAARK" jdbcType="VARCHAR" property="reaark" />
+    <result column="BANK_ISVA" jdbcType="INTEGER" property="bankIsva" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    BANK_ID, BANK_NUMBER, BANK_TIME, BANK_COUNT, BANK_STAFFID, ISVA, CREATETIME, CREATER, 
+    REAARK, BANK_ISVA
+  </sql>
+  <select id="selectByExample" parameterType="com.newer.medicine.domain.ErpBankExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from erp_bank
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from erp_bank
+    where BANK_ID = #{bankId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from erp_bank
+    where BANK_ID = #{bankId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.newer.medicine.domain.ErpBank">
+    insert into erp_bank (BANK_ID, BANK_NUMBER, BANK_TIME, 
+      BANK_COUNT, BANK_STAFFID, ISVA, 
+      CREATETIME, CREATER, REAARK, 
+      BANK_ISVA)
+    values (#{bankId,jdbcType=VARCHAR}, #{bankNumber,jdbcType=VARCHAR}, #{bankTime,jdbcType=VARCHAR}, 
+      #{bankCount,jdbcType=INTEGER}, #{bankStaffid,jdbcType=VARCHAR}, #{isva,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{reaark,jdbcType=VARCHAR}, 
+      #{bankIsva,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.newer.medicine.domain.ErpBank">
+    insert into erp_bank
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bankId != null">
+        BANK_ID,
+      </if>
+      <if test="bankNumber != null">
+        BANK_NUMBER,
+      </if>
+      <if test="bankTime != null">
+        BANK_TIME,
+      </if>
+      <if test="bankCount != null">
+        BANK_COUNT,
+      </if>
+      <if test="bankStaffid != null">
+        BANK_STAFFID,
+      </if>
+      <if test="isva != null">
+        ISVA,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="creater != null">
+        CREATER,
+      </if>
+      <if test="reaark != null">
+        REAARK,
+      </if>
+      <if test="bankIsva != null">
+        BANK_ISVA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bankId != null">
+        #{bankId,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNumber != null">
+        #{bankNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankTime != null">
+        #{bankTime,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCount != null">
+        #{bankCount,jdbcType=INTEGER},
+      </if>
+      <if test="bankStaffid != null">
+        #{bankStaffid,jdbcType=VARCHAR},
+      </if>
+      <if test="isva != null">
+        #{isva,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="reaark != null">
+        #{reaark,jdbcType=VARCHAR},
+      </if>
+      <if test="bankIsva != null">
+        #{bankIsva,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.newer.medicine.domain.ErpBank">
+    update erp_bank
+    <set>
+      <if test="bankNumber != null">
+        BANK_NUMBER = #{bankNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankTime != null">
+        BANK_TIME = #{bankTime,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCount != null">
+        BANK_COUNT = #{bankCount,jdbcType=INTEGER},
+      </if>
+      <if test="bankStaffid != null">
+        BANK_STAFFID = #{bankStaffid,jdbcType=VARCHAR},
+      </if>
+      <if test="isva != null">
+        ISVA = #{isva,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="reaark != null">
+        REAARK = #{reaark,jdbcType=VARCHAR},
+      </if>
+      <if test="bankIsva != null">
+        BANK_ISVA = #{bankIsva,jdbcType=INTEGER},
+      </if>
+    </set>
+    where BANK_ID = #{bankId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.newer.medicine.domain.ErpBank">
+    update erp_bank
+    set BANK_NUMBER = #{bankNumber,jdbcType=VARCHAR},
+      BANK_TIME = #{bankTime,jdbcType=VARCHAR},
+      BANK_COUNT = #{bankCount,jdbcType=INTEGER},
+      BANK_STAFFID = #{bankStaffid,jdbcType=VARCHAR},
+      ISVA = #{isva,jdbcType=INTEGER},
+      CREATETIME = #{createtime,jdbcType=VARCHAR},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      REAARK = #{reaark,jdbcType=VARCHAR},
+      BANK_ISVA = #{bankIsva,jdbcType=INTEGER}
+    where BANK_ID = #{bankId,jdbcType=VARCHAR}
+  </update>
+</mapper>

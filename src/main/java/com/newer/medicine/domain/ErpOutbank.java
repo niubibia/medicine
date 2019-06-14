@@ -1,52 +1,27 @@
 package com.newer.medicine.domain;
 
-import java.util.List;
-
-/**
- * 出库单表
- */
 public class ErpOutbank {
-    private String obId;//出库id
+    private String obId;
 
-    private String kinordId;//分店采购id
+    private String kinordId;
 
-    private String obNumber;//出库编号
+    private String obNumber;
 
-    private String obTime;//出库时间
+    private String obTime;
 
-    private Integer obWarecount;//出库数量
+    private Integer obWarecount;
 
-    private Integer obBusibess;//出库状态
+    private Integer obBusibess;
 
-    private String obStaffid;//出库人
+    private String obStaffid;
 
-    private Integer isva;//是否有效
+    private Integer isva;
 
-    private String createtime;//创建时间
+    private String createtime;
 
-    private String creater;//创建人
+    private String creater;
 
-    private String remark;//备注
-
-    private String staName;//出库人姓名
-
-    private List<ErpInvedet> det;//库存明细
-
-    public String getStaName() {
-        return staName;
-    }
-
-    public void setStaName(String staName) {
-        this.staName = staName;
-    }
-
-    public List<ErpInvedet> getDet() {
-        return det;
-    }
-
-    public void setDet(List<ErpInvedet> det) {
-        this.det = det;
-    }
+    private String remark;
 
     public String getObId() {
         return obId;

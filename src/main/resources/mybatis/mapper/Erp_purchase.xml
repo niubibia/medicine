@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.newer.medicine.mapper.Erp_purchaseMapper">
+    <select id="selectErpApplyasset" resultType="com.newer.medicine.domain.Erp_purchase">
+select*from erp_purchase
+<where>
+    1=1
+    <if test="PURC_TITLE!=null and PURC_TITLE!=''">
+        and PURC_TITLE like  concat('%',concat(#{PURC_TITLE},'%'))
+    </if>
+    <if test="PURC_NAME!=null and PURC_NAME!=''">
+        and PURC_NAME like concat('%',concat(#{PURC_NAME},'%'))
+    </if>
+    <if test="page!=null and limit!=null">
+        limit #{page},#{limit}
+    </if>
+</where>
+    </select>
+
+ <!-- <cache
+    eviction="LRU"
+    readOnly="true"
+    size="5120"
+    flushInterval="30000"
+    type="com.newer.springboot.util.RedisCache"></cache>-->
+
+
+</mapper>

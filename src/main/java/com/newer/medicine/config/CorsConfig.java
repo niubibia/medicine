@@ -12,13 +12,13 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration //配置类
 public class CorsConfig {
 
-    public static String[] orgins={
+    public static String[] orgins = {
             "localhost:8080",
             "127.0.0.1:8080"
     };
 
     @Bean
-    public CorsFilter corsFilter(){
+    public CorsFilter corsFilter() {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
@@ -28,15 +28,15 @@ public class CorsConfig {
         corsConfiguration.setAllowCredentials(true);
         this.addAllowOrgins(corsConfiguration);
 
-        source.registerCorsConfiguration("/**",corsConfiguration);
+        source.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(source);
     }
 
-
-    private void addAllowOrgins(CorsConfiguration corsConfiguration){
-        for(String orgin:orgins){
-            corsConfiguration.addAllowedOrigin("http://"+orgin);
-            corsConfiguration.addAllowedOrigin("https://"+orgin);
+    private void addAllowOrgins(CorsConfiguration corsConfiguration) {
+        for (String orgin : orgins) {
+            corsConfiguration.addAllowedOrigin("http://" + orgin);
+            corsConfiguration.addAllowedOrigin("https://" + orgin);
         }
     }
+
 }

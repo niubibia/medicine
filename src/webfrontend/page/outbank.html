@@ -39,7 +39,7 @@
         <td style="width:3%;"></td>
         <td>
             <div class="layui-inline" >
-                <input class="layui-input" name="price" id="price" placeholder="请输入" autocomplete="off">
+                <input class="layui-input" name="obNumber" id="obNumber" placeholder="请输入" autocomplete="off">
             </div>
             <button class="layui-btn" data-type="reload" onclick="solo()">搜索</button>
         </td>
@@ -81,11 +81,11 @@
         //方法级渲染
         table.render({
             elem : '#LAY_table_user',
-            url : 'ErpOutbankAction/selectAll.action',
+            url : 'http://127.0.0.1:8087/api/list',
             where: { //设定异步数据接口的额外参数，任意设
-                'price':2
+                'obNumber':"对不起谢谢你"
             },
-            method : 'POST',
+            method : 'get',
             cols : [ [  {
                 field : 'obNumber',
                 title : '出库编号',
@@ -104,7 +104,7 @@
                 templet: '#ivsaBank'
             }
                 , {
-                    field : 'staName',
+                    field : 'creater',
                     title : '创建人',
                     width : 120,
                     align : 'center'
@@ -126,8 +126,12 @@
                 }
 
             ] ],
-            id : 'tableBank',
-            page : true
+            page : true,
+            done:function (res) {
+                console.log("ssss")
+                console.log(res)
+            },
+            id:'tableBank',
         });
 
         table.on('tool(user)', function(obj){
@@ -224,7 +228,7 @@
         table.reload('tableBank', {
             where: { //设定异步数据接口的额外参数，任意设
                 'price':$("#seleAi").val(),
-                'prie':$("#price").val()
+                'obNumber':$("#obNumber").val()
             }
         });
 
@@ -258,6 +262,18 @@
     {{# }else if(d.rawName ===null || d.rawName === "") { }}
     {{ d.kinsName }}
     {{#  } }}
+</script>
+<script>
+    $.ajax({
+        type:"get",
+        dataType:"json",
+        url:'http://127.0.0.1:8087/api/list'+"/"+"1",
+        success:function (data) {
+            data.data.forEach(function (outbank,index) {
+                console.log(outbank.obNumber)
+            })
+        }
+    })
 </script>
 </body>
 </html>

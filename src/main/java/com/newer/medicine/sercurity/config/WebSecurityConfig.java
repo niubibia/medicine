@@ -1,8 +1,6 @@
 package com.newer.medicine.sercurity.config;
 
 
-
-
 import com.newer.medicine.sercurity.controller.JwtAuthenticationEntryPoint;
 import com.newer.medicine.sercurity.controller.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +101,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             // Un-secure 登录 验证码
             .antMatchers(
-                   // "/api/**",
+                   "/api/**",
+                    "/page/**",
                     "/api/auth/**",
                     "/api/verifyCode/**",
                     "/api/global_json"
