@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.medicine.mapper.ErpWarehouseMapper">
+    <resultMap id="warMap" type="ErpWarehouse">
+        <id column="WARE_ID" property="wareId" jdbcType="VARCHAR" />
+        <result column="KIN_ID" property="kinId" jdbcType="VARCHAR" />
+        <result column="RAW_ID" property="rawId" jdbcType="VARCHAR" />
+        <!--<result column="rawName" property="rawName" jdbcType="VARCHAR" />-->
+        <!--<result column="kinName" property="kinName" jdbcType="VARCHAR" />-->
+        <result column="KIN_PRICE" property="kinPrice" jdbcType="VARCHAR" />
+        <result column="RAW_PRICE" property="rawPrice" jdbcType="VARCHAR" />
+        <result column="WARE_NUM" property="wareNum" jdbcType="INTEGER" />
+        <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+        <result column="ISVA" property="isva" jdbcType="INTEGER" />
+        <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        <result column="KIN_NAME" property="kinName" jdbcType="VARCHAR" />
+        <result column="raw_NAME" property="rawName" jdbcType="VARCHAR" />
+        <collection property="det" ofType="ErpInvedet">
+            <id column="INVEDET_ID" property="invedetId" jdbcType="VARCHAR" />
+            <result column="BANK_ID" property="bankId" jdbcType="VARCHAR" />
+            <result column="WARE_ID" property="wareId" jdbcType="VARCHAR" />
+            <result column="OB_ID" property="obId" jdbcType="VARCHAR" />
+            <result column="KIN_ID" property="kinId" jdbcType="VARCHAR" />
+            <result column="INVEDET_NUM" property="invedetNum" jdbcType="INTEGER" />
+            <result column="RAW_ID" property="rawId" jdbcType="VARCHAR" />
+            <result column="RAW_NAME" property="rawName" jdbcType="VARCHAR" />
+            <result column="sta_name" property="staName" jdbcType="VARCHAR" />
+            <result column="KIN_NAME" property="kinsName" jdbcType="VARCHAR" />
+            <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+            <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+            <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+            <result column="ISVA" property="isva" jdbcType="INTEGER" />
+        </collection>
+    </resultMap>
+    <!--查询所有药品-->
+    <select id="findAllWareKind" resultMap="warMap">
+        select war.* ,kind.KIN_NAME,kind.KIN_PRICE from
+        erp_warehouse war,erp_kinds kind
+        <where>
+            war.KIN_ID=kind.KIN_ID
+            <if test="kindName !=null or kindName!=''">
+                and kind.KIN_NAME like concat ('%',concat(#{kindName},'%'))
+            </if>
+            and war.isva = 1 order by war.createtime desc limit #{pageIndex},#{limit}
+        </where>
+    </select>
+    <!--查询所有库存药品总纪录数-->
+    <select id="countWareKind" resultType="int">
+        select count(*) from
+        erp_warehouse war,erp_kinds kind
+        <where>
+            war.KIN_ID=kind.KIN_ID
+            <if test="kindName !=null or kindName!=''">
+                and kind.KIN_NAME like concat ('%',concat(#{kindName},'%'))
+            </if>
+            and war.isva = 1
+        </where>
+    </select>
+    <!--查询所有原材料-->
+    <select id="findAllWareRaw" resultMap="warMap">
+        select war.* ,raw.RAW_NAME,raw.RAW_PRICE from
+        erp_warehouse war,erp_raw raw
+        <where>
+            war.raw_id=raw.raw_id
+            <if test="rawName !=null or rawName!=''">
+                and raw.raw_name like concat ('%',concat(#{rawName},'%'))
+            </if>
+             and war.isva = 1 order by war.createtime desc limit #{pageIndex},#{limit}
+        </where>
+    </select>
+    <!--查询所有原材料纪录数-->
+    <select id="countWareRaw" resultType="int">
+        select count(*) from
+        erp_warehouse war,erp_raw raw
+        <where>
+            war.raw_id=raw.raw_id
+            <if test="rawName !=null or rawName!=''">
+                and raw.Raw_name like concat ('%',concat(#{rawName},'%'))
+            </if>
+            and war.isva = 1
+        </where>
+    </select>
+    <!--查询库存详情-->
+    <select id="selectIndevtByWareId" resultMap="warMap">
+        select w.*,i.*,s.sta_name,k.kin_name,r.raw_name
+        from erp_warehouse w ,erp_invedet i
+        left join erp_kinds k on i.KIN_ID=k.KIN_ID
+        left join erp_raw r on i.raw_id = r.raw_id
+        left join erp_staff s on s.sta_id = i.creater
+        where w.ware_id = i.ware_id and w.ware_id = #{wareId}
+    </select>
+
+</mapper>
