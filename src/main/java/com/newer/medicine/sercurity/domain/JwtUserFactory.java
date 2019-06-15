@@ -3,6 +3,7 @@ package com.newer.medicine.sercurity.domain;
 
 import com.newer.medicine.domain.Admins;
 import com.newer.medicine.domain.Authority;
+import com.newer.medicine.domain.ErpStaff;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -14,16 +15,14 @@ public final  class JwtUserFactory {
     private JwtUserFactory() {
     }
 
-    public static JwtUser create(Admins user){
+    public static JwtUser create(ErpStaff user){
          return new JwtUser(
-                 user.getAid(),
-                 user.getState(),
-                 user.getAname(),
-                 user.getPwd(),
-                 user.getEmail(),
+                 user.getStaEmail(),
+
                  mapToGrandAuthroties(user.getAuthorities()),
-                 user.getAexist()==1?true:false,
-                 user.getLastPasswordResetDate()
+                 user.getStaPwd(),
+                 user.getIsva()==1?true:false,
+                user.getStaName()
          );
     }
 

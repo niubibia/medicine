@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.newer.medicine.mapper.ErpLogMapper" >
+    <resultMap id="BaseResultMap" type="ErpLog" >
+        <id column="LOG_ID" property="logId" jdbcType="VARCHAR" />
+        <result column="INDENT_ID" property="indentId" jdbcType="VARCHAR" />
+        <result column="LOG_SERIAL" property="logSerial" jdbcType="VARCHAR" />
+        <result column="LOG_TITLE" property="logTitle" jdbcType="VARCHAR" />
+        <result column="LOG_CONTENT" property="logContent" jdbcType="VARCHAR" />
+        <result column="LOG_NUM" property="logNum" jdbcType="INTEGER" />
+        <result column="LOG_COMPLET" property="logComplet" jdbcType="INTEGER" />
+        <result column="LOG_PERSON" property="logPerson" jdbcType="VARCHAR" />
+        <result column="ISVA" property="isva" jdbcType="INTEGER" />
+        <result column="STATE" property="state" jdbcType="INTEGER" />
+        <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+        <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+    <!-- 查询所有 -->
+    <select id="selectshow"  resultMap="BaseResultMap" >
+        select * from erp_log
+        <where>
+            <if test="key != null and key!=''">
+                (
+                LOG_SERIAL like CONCAT('%',#{key},'%' )
+                or
+                LOG_TITLE like CONCAT('%',#{key},'%' )
+                or
+                LOG_CONTENT like CONCAT('%',#{key},'%' )
+                or
+                LOG_COMPLET like CONCAT('%',#{key},'%' )
+                or
+                CREATETIME like CONCAT('%',#{key},'%' )
+                )
+            </if>
+            and ISVA=1
+        </where>
+        limit #{page},#{limit}
+    </select>
+    <!-- 总行数-->
+    <select id="select" parameterType="map" resultType="int" >
+        select COUNT(*) from erp_log
+        <where>
+            <if test="key != null and key!=''">
+                (
+                LOG_SERIAL like CONCAT('%',#{key},'%' )
+                or
+                LOG_TITLE like CONCAT('%',#{key},'%' )
+                or
+                LOG_CONTENT like CONCAT('%',#{key},'%' )
+                or
+                LOG_COMPLET like CONCAT('%',#{key},'%' )
+                or
+                CREATETIME like CONCAT('%',#{key},'%' )
+                )
+            </if>
+            and ISVA=1
+        </where>
+
+    </select>
+
+
+
+</mapper>

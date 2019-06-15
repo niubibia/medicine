@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api")
@@ -64,7 +65,7 @@ public class AuthenticationRestController {
     String username = jwtTokenUtil.getUsernameFromToken(token);
     JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
 
-    if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
+    if (jwtTokenUtil.canTokenBeRefreshed(token, new Date())) {
       String refreshedToken = jwtTokenUtil.refreshToken(token);
       return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
     } else {

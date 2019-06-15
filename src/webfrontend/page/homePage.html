@@ -48,9 +48,8 @@
         <ul class="layui-nav layui-layout-right">
 
             <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="${staff.staImg }" class="layui-nav-img">
-                    ${staff.staName }
+                <a href="javascript:;" id="staName">
+
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="page/set.jsp">基本资料</a></dd>
@@ -189,7 +188,7 @@
                     <a class="" href="javascript:;">审核管理</a>
                     <dl class="layui-nav-child">
                         <dd><a id="finance" class="tab" href="javascript:;" title="finance">财务审核</a></dd>
-                        <dd><a id="proindents" class="tab" href="javascript:;" title="audit/proindent">生产审核</a></dd>
+                        <dd><a id="proindents" class="tab" href="javascript:;" title="proindent">生产审核</a></dd>
                         <dd><a id="audit" class="tab" href="javascript:;" title="audit/audit">采购审核</a></dd>
                     </dl>
                 </li>
@@ -225,6 +224,45 @@
     </div>
 </div>
 
+<script src="../res/js/token.js"></script>
+<script>
+    console.log(createAuthorizationTokenHeader())
+    $.ajax({
+        url: HOST_URL + "user",
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: createAuthorizationTokenHeader(),
+        success: function (data, textStatus, jqXHR) {
+            console.log(data)
+            if (data) {
+                $("#staName").html(data.name)
+
+
+
+                //loadMenu(data.state)
+            } else {
+                window.location.href = "login.html"
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Spring exception:", jqXHR.responseJSON.exception)
+            layer.confirm("非授权用户,请先登录", () => {
+                window.location.href = "login.html"
+            })
+        }
+    })
+
+
+    /* 注销 */
+    function logout() {
+        layer.confirm("真的要注销吗?", () => {
+            removeJwtToken()
+            window.location.href = "login.html"
+        })
+    }
+
+</script>
 <script>
     layui.use('element', function(){
         var element = layui.element;
@@ -290,16 +328,7 @@
         }
 
     });
-    //注销
-    function logout(){
-        layer.confirm('是否立即注销?', {icon: 3, title:'注销'}, function(index){
-            layer.close(index);
-            url="staff/deleteSession.action";
-            $.post(url,null,function(m){
-                location.href="page/login.jsp";
-            });
-        });
-    }
+
     //更换主题
     $("#theme dl dd a").click(function(){
         $(".layui-layout-admin .layui-header").css("background-color",$(this).css("color"));
