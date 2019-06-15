@@ -41,7 +41,7 @@
                     <input class="layui-input" name="id" id="demoReload"
                            autocomplete="off">
                 </div>
-                <button class="layui-btn" data-type="reload" onclick="sousuo">搜索</button>
+                <button class="layui-btn" data-type="reload" onclick="sousuo('{data.purc_ID}')">搜索</button>
                 <button data-type="auto" class="layui-btn layui-btn-normal"
                         onclick="add('')">采购原材料</button>
             </div>
@@ -59,7 +59,7 @@
                     <input class="layui-input" name="id" id="demoReload2"
                            autocomplete="off">
                 </div>
-                <button class="layui-btn" data-type="reload" onclick="sousuo">搜索</button>
+                <button class="layui-btn" data-type="reload" onclick="sousuo()">搜索</button>
                 <button data-type="auto" class="layui-btn layui-btn-normal"
                         onclick="add2('')">采购成品</button>
             </div>
@@ -78,6 +78,22 @@
 <!-- 采购原材料 -->
 <script src="../res/js/hospital.js"></script>
 <script>
+   // 绑定click点击事件
+
+
+
+    function sousuo(){
+        var demoReload = $('#demoReload');
+        table.reload('testReload',{
+            where : {
+                keywords : demoReload.val(),
+            }
+        })
+    }
+
+
+
+
     layui.use('table', function(){
         var table = layui.table;
 
@@ -131,69 +147,68 @@
                 align : 'center',
                 toolbar : '#barDemo'
             } ] ] //开启分页
+               ,id : 'testReload'
             ,page: true
         });
     });
    //$('table.LAY_table_user thead tr th:nth-child(1)').addClass('layui-hide');
 
-
-    table.on('tool(user)',function (obj) {
-        var data = obj.data; //获得当前行数据
-        var layEvent = obj.event; //获得 lay-event 对应的值
-        var tr = obj.tr; //获得当前行 tr 的DOM对象
-        if (layEvent === 'edit') {
-            $.ajax({
-                type:"GET ",
-                url:HOST_URL+"selectById",
-                data:{"PURC_ID":data.PURC_ID},
-                dataType:"json",
-                success:function (data) {
-                    console.log(data);
-                    var tabVal = '<div id="ss">查看详情</div>';
-                    $.each(data,function (index,item) {
-                        tabVal += '' + '<tr>' + '<td>' + item.PURC_NAME
-                            + '</td>' + '<td>' + item.RAW_NAME
-                            + '</td>' + '<td>' + item.PURC_TIME
-                            + '</td>' + '<td>' + item.PURC_TITLE
-                            + '</td>' + '<td>' + item.PUR_TOTAL_PRICE
-                            + '</td>' + '<td>' + item.PURC_TOTAL_PRICE
-                            + '</td>' + '</tr>' + '';
-                    })
-
-                    layer.open({
-                        type : 1,
-                        title : false, //不显示标题栏
-                        closeBtn : true,
-                        area: '600px',//调节宽度，高度自适应
-                        shade : 0.8,
-                        anim: 2,
-                        shade: [0.8, '#393D49'],
-                        id : 'LAY_layuipro', //设定一个id，防止重复弹出
-                        btnAlign : 'c',
-                        moveType : 1, //拖拽模式，0或者1
-                        content : '<center><div style="width:580px;"><table class="layui-table" id="adc">' + '<thead>'
-                        + '<tr>'
-                        + '<th>采购人</th>'
-                        + '<th>材料</th>'
-                        + '<th>采购时间</th>'
-                        + '<th>药物</th>'
-                        + '<th>材料单价</th>'
-                        + '<th>总价</th>'
-                        + '</tr>'
-                        + '</thead>'
-                        + '<tbody>'+ tabVal + '</tbody>'
-                        + '</table></div></center>',
-                    });
-
-
-
-
-                }
-            })
-
-        }
+    layui.use('table',function () {
+        table=layui.table;
+//监听行工具事件
+        table.on('tool(user)',function (obj) {
+            var data = obj.data; //获得当前行数据
+            if (obj.event=== 'edit') {
+                layer.open({
+                    type:2,
+                    title:"查询详情",
+                    area: ['500px', '300px'],
+                    content:"htxx.html?id="+data.purc_ID
+                })
+            }else if (obj.event === 'record'){
+                layer.open({
+                    type:2,
+                    title:"记录",
+                    area: ['500px', '300px'],
+                    content:"htaa.html?id="+data.purc_ID
+                })
+            }
+        })
+        //头工具栏事件
+        table.on('toolbar(tableTest)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'delAll':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+            };
+        });
 
     })
+
+
+    function add(obj) {
+        var addCen = layer.open({
+            id : "purcFrom",
+            type : 2 //Page层类型
+            ,
+            skin : 'layui-layer-molv'//样式
+            ,
+            area : [ '75%', '85%' ],
+            title : '点击增加',
+            shade : [ 0.8, '#393D49' ] //显示遮罩
+            ,
+            maxmin : true //允许全屏最小化
+            ,
+            anim : 2 //0-6的动画形式，-1不开启
+            ,
+            shadeClose : true//点击也能遮罩层关闭
+            ,
+            content : "htdd.html?PURC_ID=" + obj.purc_ID
+            + "&stId=" + obj.aud_ID
+        });
+    }
 
 </script>
 
@@ -222,13 +237,13 @@
     <a class="layui-btn layui-btn-mini" lay-event="edit"  >详情</a>
     <a class="layui-btn layui-btn-mini layui-bg-orange" lay-event="record">记录</a>
 </script>
-<script type="text/html" id="barDemo2">
+<!--<script type="text/html" id="barDemo2">
     {{#  if(d.state == 0){ }}
     <span class="layui-btn layui-btn-danger layui-btn-mini" lay-event="pdt">重新申请</span>
     {{#  } }}
     <a class="layui-btn layui-btn-mini" lay-event="edit"  >详情</a>
     <a class="layui-btn layui-btn-mini layui-bg-orange" lay-event="record">记录</a>
-</script>
+</script>-->
 
 </body>
 </html>
