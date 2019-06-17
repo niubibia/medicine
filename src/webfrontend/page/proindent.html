@@ -105,12 +105,12 @@
                     ,{field:'indentUrgency', title:'是否紧急', toolbar: '#urg', width:100,align:'center'}
                     ,{field:'state', title:'审核状态', toolbar: '#state1', width:100,align:'center'}
                     ,{field:'indentState', title:'订单生产状态', toolbar: '#zt', width:140,align:'center'}
-                    ,{field:'remark', width:140, title: '备注'}
+                    ,{field:'remark', width:120, title: '备注'}
                     ,{field:'indentEmetime', width:150, title: '生产订单生成时间'}
                     ,{field:'indentWorktime', width:100, title: '本次订单需要花费的时间'}
                     ,{field:'indentEndtime', width:120, title: '预计完成时间'}
                     //行内工具栏
-                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:280,align:'center'}
+                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:300,align:'center'}
                 ]]
                 //开启分页
                 ,page: true
@@ -140,7 +140,7 @@
 <!-- 判断订单生产状态 -->
 <script type="text/html" id="zt">
     {{#  if(d.indentState==1){ }}
-    <span class="layui-btn layui-btn-primary layui-btn-small">订单开始</span>
+    <span class="layui-btn layui-btn-primary layui-btn-small">等待审核中</span>
     {{# }else if(d.indentState==2) { }}
     <span class="layui-btn layui-btn-warm layui-btn-small">订单生产中</span>
     {{# }else if(d.indentState==3) { }}
@@ -151,6 +151,11 @@
 </script>
 
 <script type="text/html" id="barDemo">
+    {{#  if(d.state==1){ }}
+    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="check">审核</a>
+    {{# }else { }}
+    <a class="layui-btn layui-btn-disabled layui-btn-mini">审核</a>
+    {{#  } }}
     {{#  if(d.indentState==4 && d.state==2){ }}
     <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="pf">配料</a>
     {{# }else { }}
@@ -222,11 +227,14 @@
                 layer.open({
                     type:2,
                     skin: 'layui-layer-molv',//样式
-                    content:'page/proindentupdateshow.jsp?indentId='+data.indentId,
+                    content:'proindentupdateshow.html?indentId='+data.indentId,
                     area: ['80%', '80%'],
                     title: '查看订单',
                 });
+            }else if(obj.event==='check'){
+                check(data.indentId);
             }else if(obj.event==='pf'){
+                //配料。等着材料出库
                 layer.open({
                     type:2,
                     skin: 'layui-layer-molv',//样式
@@ -236,6 +244,7 @@
                 });
 
             }else if(obj.event==='zj'){
+                //质检。等着药品入库
                 var da = {"indentId":data.indentId};
                 $.post("ErpQualityAction/selectShowNew.action",da,function(mes){
                     if(mes.state==1){//真确的样式
@@ -265,20 +274,20 @@
                     }
                 });
             }
-        };
+        };*/
 
-        $('.demoTable .layui-btn').on('click', function(){
+        /*$('.demoTable .layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
-        });
-    });*/
+        });*/
+    });
 
     function add(){
 
         layer.open({
             type:2,
             skin: 'layui-layer-molv',//样式
-            content:'page/Logadd.jsp',
+            content:'Logadd.html',
             area: ['98%', '80%'],
             title: '增加订单日志',
         });
@@ -286,6 +295,7 @@
     }
 
 
+    //删除
     function del(id) {
         $.ajax({
             type:"put",
@@ -298,6 +308,20 @@
             }
         })
 
+    }
+
+    //审核
+    function check(id) {
+        $.ajax({
+            type:"put",
+            url:HOST_URL+"updateCheckState?indentId="+id,
+            dataType:"json",
+            success:function (data) {
+                if (data>0){
+                    location.reload();
+                }
+            }
+        })
     }
 </script>
 

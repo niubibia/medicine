@@ -1,15 +1,16 @@
 package com.newer.medicine.mapper;
 
 import com.newer.medicine.domain.ErpLog;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ErpLogMapper {
+    public List<ErpLog> selectAllErpLogDetaill(@Param("indentId")String indentId);
+
+
     int deleteByPrimaryKey(String logId);
 
     //查询所有

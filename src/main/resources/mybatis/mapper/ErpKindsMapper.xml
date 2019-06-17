@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.medicine.mapper.ErpKindsMapper">
+  <resultMap id="BaseResultMap" type="com.newer.medicine.domain.ErpKinds">
+    <id column="KIN_ID" jdbcType="VARCHAR" property="kinId" />
+    <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
+    <result column="KIN_SERIAL" jdbcType="VARCHAR" property="kinSerial" />
+    <result column="KIN_BARCODE" jdbcType="VARCHAR" property="kinBarcode" />
+    <result column="KIN_NAME" jdbcType="VARCHAR" property="kinName" />
+    <result column="KIN_CONTENT" jdbcType="DECIMAL" property="kinContent" />
+    <result column="KIN_EXPIRATION" jdbcType="VARCHAR" property="kinExpiration" />
+    <result column="KIN_PRICE" jdbcType="DECIMAL" property="kinPrice" />
+    <result column="KIN_SELLINF" jdbcType="DECIMAL" property="kinSellinf" />
+    <result column="KIN_STOST" jdbcType="DECIMAL" property="kinStost" />
+    <result column="ISVA" jdbcType="INTEGER" property="isva" />
+    <result column="CREATETIME" jdbcType="VARCHAR" property="createtime" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="ENTDE_NUM" property="indentCount"></result>
+    <result column="ENTDE_PRICE" property="indentMoney"></result>
+  </resultMap>
+
+  <select id="selectAllErpKindsss" resultMap="BaseResultMap">
+    select ek.*,epd.ENTDE_NUM,epd.ENTDE_PRICE from erp_kinds ek,erp_proindent_detail epd where ek.KIN_ID=epd.KIN_ID and epd.INDENT_ID=#{indentId}
+  </select>
+</mapper>
