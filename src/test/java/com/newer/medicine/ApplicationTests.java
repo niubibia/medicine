@@ -1,15 +1,8 @@
 package com.newer.medicine;
 
-
-import com.newer.medicine.domain.ErpFdproform;
-import com.newer.medicine.domain.ErpRoleModel;
-import com.newer.medicine.domain.ErpStaff;
-import com.newer.medicine.domain.Erp_purchase;
+import com.newer.medicine.domain.Erp_Keids;
 import com.newer.medicine.mapper.Erp_purchaseMapper;
-import com.newer.medicine.server.Erp_purchaseServer;
-import com.newer.medicine.service.ErpFdproformService;
-import com.newer.medicine.service.ErpRoleModelService;
-import com.newer.medicine.util.Pages;
+import com.newer.medicine.server.Erp_KeidsServer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +18,29 @@ import java.util.Map;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationTests {
+
  @Autowired
     private Erp_purchaseMapper erp_purchaseMapper;
     private BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+
+    @Autowired
+    private Erp_KeidsServer erp_keidsServer;
+
 
 @Test
     public void add(){
     System.out.println(passwordEncoder.encode("admin"));
 }
+
+
+    @Test
+    public void contextLoads() {
+
+        List<Erp_Keids> erp_applyassetList=erp_keidsServer.findStation();
+        erp_applyassetList.forEach(s->{
+            System.out.println(s.getKinId());
+        });
+    }
 
 
 }

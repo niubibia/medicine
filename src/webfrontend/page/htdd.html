@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="<%=basePath%>">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="../res/layui/css/layui.css" media="all">
+
+    <title>编辑jsp</title>
+    <style type="text/css">
+        body {
+            padding: 2%;
+        }
+
+        #ss {
+            color: #780000;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        #sa {
+            text-align: center;
+            color: #780000;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <form class="layui-form" id="formSubmit">
+        <input type="hidden" id="purcId" name="purcId"></input>
+        <input type="hidden" name="state" id="state"/>
+        <fieldset class="layui-elem-field layui-field-title"
+                  style="margin-top: 20px;">
+            <legend>采购订单表</legend>
+        </fieldset>
+
+        <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">采购标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="purcTitle" id="purcTitle"
+                       placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <fieldset class="layui-elem-field layui-field-title"
+                  style="margin-top: 20px;">
+            <legend>采购订单详细表</legend>
+        </fieldset>
+
+        <div id="specifications-number">
+            <div class="layui-form-item">
+                <label class="layui-form-label">原材料</label>
+                <div class="layui-input-inline">
+                    <select name="rawId" id="rawId" lay-verify="" lay-search>
+                        <option value="">请选择</option>
+                    </select>
+
+                </div>
+                <div class="layui-input-inline">
+                    <input name="number" lay-verify="required" placeholder="请输入数量"
+                           autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <a href="javascript:void(0)" class="layui-btn layui-bg-gray"
+                   style="width: 62.5%;" onclick="addRaw()">添加原材料</a>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" id="submitALL" lay-submit lay-filter="sbt">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+        <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+
+    </form>
+</div>
+<script src="../res/js/hospital.js"></script>
+<script src="../res/js/jquery-3.3.1.min.js"></script>
+<script>
+    $("#submitALL").click(()=>{
+
+    })
+</script>
+</body>
+</html>

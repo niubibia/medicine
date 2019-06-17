@@ -39,7 +39,7 @@ public class Erp_purchaseController {
     //查询详情
     @RequestMapping(value = "selectById",method =RequestMethod.GET )
     public ResponseEntity<?> selectById(@RequestParam(value = "PURC_ID",required =false )String PURC_ID){
-Erp_purchase erp_purchase=erp_purchaseServer.selectById(PURC_ID);
+        List<Erp_purchase> erp_purchase=erp_purchaseServer.selectById(PURC_ID);
 return new ResponseEntity<>(erp_purchase,HttpStatus.OK);
     }
 }
