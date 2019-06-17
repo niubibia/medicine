@@ -64,7 +64,7 @@
             </tr>
         </table>
     </form>
-    <button class="layui-btn" style="margin-top: 5px;" data-type="reload"><i class="layui-icon">&#xe615;</i>搜索</button>
+    <button class="layui-btn" style="margin-top: 5px;" data-type="reload" onclick="table()"><i class="layui-icon">&#xe615;</i>搜索</button>
     <button class="layui-btn layui-btn-warm" onclick="add()"><i class="layui-icon">&#xe608;</i>增加订单日志</button>
 </div>
 </div>
@@ -72,22 +72,7 @@
 
 
 <table id="dataTable" class="layui-table" lay-filter="demo">
-   <!-- <thead>
-    <tr>
-        <th lay-data="{field:'indentId', width:140, sort: true, fixed: true},hidden:'true'">ID</th>
-        <th lay-data="{field:'indentNumber', width:160}">生产订单编号</th>
-        <th lay-data="{field:'indentMoney', width:114}">生产订单金额</th>
-        <th lay-data="{field:'indentCount', width:76}">数量</th>
-        <th lay-data="{field:'indentUrgency', width:100,templet:'#urg', align:'center'}">是否紧急</th>
-        <th lay-data="{field:'state', width:100,templet:'#state1'}">审核状态</th>
-        <th lay-data="{field:'indentState', width:140, align:'center',templet:'#zt'}">订单生产状态</th>
-        <th lay-data="{field:'remark', width:140, align:'center'}">备注</th>
-        <th lay-data="{field:'indentEmetime', width:150, sort: true}">生产订单生成时间</th>
-        <th lay-data="{field:'indentWorktime', width:100, sort: true}">本次订单需要花费的时间</th>
-        <th lay-data="{field:'indentEndtime', width:120, sort: true}">预计完成时间</th>
-        <th lay-data="{fixed: 'right', width:280, align:'center', toolbar: '#barDemo'}"></th>
-    </tr>
-    </thead>-->
+
 </table>
 
 <script src="../res/js/token.js"></script>
@@ -115,8 +100,8 @@
                     //layui 2.40之后的新特性，可以增加一个 hide:true 属性，隐藏该列
                     ,{field:'indentId', width:80, title: 'ID', hide:true}
                     ,{field:'indentNumber', width:160, title: '生产订单编号'}
-                    ,{field:'indentNumber', width:114, title: '生产订单金额'}
-                    ,{field:'indentNumber', width:76, title: '数量'}
+                    ,{field:'indentMoney', width:114, title: '生产订单金额'}
+                    ,{field:'indentCount', width:76, title: '数量'}
                     ,{field:'indentUrgency', title:'是否紧急', toolbar: '#urg', width:100,align:'center'}
                     ,{field:'state', title:'审核状态', toolbar: '#state1', width:100,align:'center'}
                     ,{field:'indentState', title:'订单生产状态', toolbar: '#zt', width:140,align:'center'}
@@ -182,7 +167,7 @@
 </script>
 
 
-<!--<script>
+<script>
     $('.x-slide_left',window.parent.document).click();//关闭左边菜单栏
     var table;
     layui.use('table', function(){
@@ -195,13 +180,14 @@
         table.on('tool(demo)', function(obj){
             var data = obj.data;
             if(obj.event === 'detail'){
-                layer.msg('ID：'+ data.id + ' 的查看操作');
+                layer.msg('ID：'+ data.indentId + ' 的查看操作');
             } else if(obj.event === 'del'){
-                if(data.indentState==4){
+                if(data.indentState==3){
                     layer.confirm('真的删除行么', function(index){
-                        obj.del();
+                        del(data.indentId);
                         layer.close(index);
-                        url = "dent/delete.action?indentId="+data.indentId;
+                        layer.msg("删除成功", {icon: 1, time: 1000});
+                        /*url = "dent/delete.action?indentId="+data.indentId;
                         $.post(url,null,function(mes){
                             table.reload('testReload');
 
@@ -213,7 +199,7 @@
                             }
 
 
-                        },"json")
+                        },"json")*/
 
                     });
                 }else{
@@ -221,11 +207,11 @@
                 }
 
             } else if(obj.event === 'edit'){
-                if(data.indentState==4){
+                if(data.indentState!=2){
                     layer.open({
                         type:2,
                         skin: 'layui-layer-molv',//样式
-                        content:'page/proindentupdate.jsp?indentId='+data.indentId,
+                        content:'proindentupdate.html?indentId='+data.indentId,
                         area: ['80%', '50%'],
                         title: '编辑订单',
                     });
@@ -263,7 +249,7 @@
         });
 
 
-        var $ = layui.$, active = {
+        /*var $ = layui.$, active = {
             reload: function(){
                 var demoReload = $('#key');
                 var demoReload1 = $('#indentUrgency');
@@ -285,7 +271,7 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-    });
+    });*/
 
     function add(){
 
@@ -300,7 +286,20 @@
     }
 
 
-</script>-->
+    function del(id) {
+        $.ajax({
+            type:"put",
+            url:HOST_URL+"delPROINDENT?indentId="+id,
+            dataType:"json",
+            success:function (data) {
+                if (data>0){
+                    location.reload();
+                }
+            }
+        })
+
+    }
+</script>
 
 </body>
 </html>

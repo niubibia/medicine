@@ -18,6 +18,21 @@
     <result column="CREATER" jdbcType="VARCHAR" property="creater" />
   </resultMap>
 
+  <resultMap id="BaseResultMap2" type="com.newer.medicine.domain.ErpProindentDetail">
+    <id column="ENTDE_ID" jdbcType="VARCHAR" property="entdeId" />
+    <result column="KIN_ID" jdbcType="VARCHAR" property="kinId" />
+    <result column="INDENT_ID" property="indentId" />
+    <result column="ENTDE_NUM" jdbcType="INTEGER" property="entdeNum" />
+    <result column="NUM" jdbcType="INTEGER" property="num" />
+    <result column="ENTDE_PRICE" property="entdePrice" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="CREATETIME" jdbcType="VARCHAR" property="createTime" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="ISVA" jdbcType="VARCHAR" property="isva" />
+    <result column="KIN_NAME" jdbcType="VARCHAR" property="kinName" />
+    <result column="KIN_PRICE" jdbcType="VARCHAR" property="kinPrice" />
+  </resultMap>
+
   <select id="selectByParam" resultMap="BaseResultMap">
     select * from erp_proindent
     <where>
@@ -56,5 +71,9 @@
         and INDENT_STATE=#{indentState}
       </if>
     </where>
+  </select>
+
+  <select id="selectById" resultMap="BaseResultMap2">
+    select pd.*,kin.KIN_NAME,kin.KIN_PRICE from erp_proindent_detail pd,erp_kinds kin where pd.ISVA=1 and INDENT_ID=#{indentId} and pd.KIN_ID=kin.KIN_ID
   </select>
 </mapper>
