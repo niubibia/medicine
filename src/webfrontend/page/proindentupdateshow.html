@@ -130,6 +130,26 @@
             }
         })
 
+        //订单生产日志查询
+        $.ajax({
+            type:"get",
+            url:HOST_URL+"selectAllErpLogDetaill?indentId="+id,
+            dataType:"json",
+            headers:createAuthorizationTokenHeader(),
+            success:function (data) {
+                htmlText='';
+                data.forEach(function (obj,index) {
+                   obj.erpLogDetails.forEach(function (o,i) {
+                       var baifenbi=(o.detailNum/o.entdeNum)*100;
+                       htmlText+=`
+                       <li class='layui-timeline-item'><i class='layui-icon layui-timeline-axis'></i><div class='layui-timeline-content layui-text'><h3 class='layui-timeline-title'>${obj.createtime}</h3><p>药品名称:${o.kinName}<br>生产数量:${o.detailNum}<br>完成度:<font color='red'>${baifenbi}%</font></p></div></i>
+                       `
+                   })
+                })
+                $("#rz").empty();
+                $("#rz").append(htmlText);
+            }
+        })
 
 
 

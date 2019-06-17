@@ -14,6 +14,24 @@ public class ErpLogDetail {
     private String createtime;
 
     private Integer isva;
+    private String kinName;
+    private int entdeNum;
+
+    public String getKinName() {
+        return kinName;
+    }
+
+    public void setKinName(String kinName) {
+        this.kinName = kinName;
+    }
+
+    public int getEntdeNum() {
+        return entdeNum;
+    }
+
+    public void setEntdeNum(int entdeNum) {
+        this.entdeNum = entdeNum;
+    }
 
     public String getDetailId() {
         return detailId;
