@@ -32,7 +32,6 @@
     <result column="KIN_NAME" jdbcType="VARCHAR" property="kinName" />
     <result column="KIN_PRICE" jdbcType="VARCHAR" property="kinPrice" />
   </resultMap>
-
   <select id="selectByParam" resultMap="BaseResultMap">
     select * from erp_proindent
     <where>
@@ -102,7 +101,7 @@
             <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
             <result column="REMARK" property="remark" jdbcType="VARCHAR" />
             <result column="ISVA" property="isva" jdbcType="VARCHAR" />
-            <result column="KIN_NAME" property="kindName" jdbcType="VARCHAR" />
+            <result column="KIN_NAME" property="kinName" jdbcType="VARCHAR" />
         </collection>
     </resultMap>
     <!--根据id查询生产详细信息-->
