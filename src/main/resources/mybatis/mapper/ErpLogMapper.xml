@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.medicine.mapper.ErpLogMapper">
+  <resultMap id="BaseResultMap" type="com.newer.medicine.domain.ErpLog">
+    <id column="LOG_ID" jdbcType="VARCHAR" property="logId" />
+    <result column="INDENT_ID" jdbcType="VARCHAR" property="indentId" />
+    <result column="LOG_SERIAL" jdbcType="VARCHAR" property="logSerial" />
+    <result column="LOG_TITLE" jdbcType="VARCHAR" property="logTitle" />
+    <result column="LOG_CONTENT" jdbcType="VARCHAR" property="logContent" />
+    <result column="LOG_NUM" jdbcType="INTEGER" property="logNum" />
+    <result column="LOG_COMPLET" jdbcType="INTEGER" property="logComplet" />
+    <result column="LOG_PERSON" jdbcType="VARCHAR" property="logPerson" />
+    <result column="ISVA" jdbcType="INTEGER" property="isva" />
+    <result column="STATE" jdbcType="INTEGER" property="state" />
+    <result column="CREATETIME" jdbcType="VARCHAR" property="createtime" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <collection property="erpLogDetails" ofType="com.newer.medicine.domain.ErpLogDetail">
+      <id column="DETAIL_ID" jdbcType="VARCHAR" property="detailId" />
+      <result column="LOG_ID" jdbcType="VARCHAR" property="logId" />
+      <result column="KIN_ID" jdbcType="VARCHAR" property="kinId" />
+      <result column="DETAIL_NUM" jdbcType="INTEGER" property="detailNum" />
+      <result column="NUM" jdbcType="INTEGER" property="num" />
+      <result column="CREATETIME" jdbcType="VARCHAR" property="createtime" />
+      <result column="ISVA" jdbcType="INTEGER" property="isva" />
+      <result column="KIN_NAME" jdbcType="INTEGER" property="kinName" />
+      <result column="ENTDE_NUM" jdbcType="INTEGER" property="entdeNum" />
+    </collection>
+  </resultMap>
+
+  <select id="selectAllErpLogDetaill" resultMap="BaseResultMap">
+    select el.*,eld.*,ek.KIN_NAME,epd.ENTDE_NUM from erp_proindent ep, erp_log_detail eld,erp_log el,erp_kinds ek,erp_proindent_detail epd where el.LOG_ID=eld.LOG_ID and el.INDENT_ID=#{indentId} and ek.KIN_ID=eld.KIN_ID and  eld.KIN_ID=epd.KIN_ID and ek.KIN_ID=epd.KIN_ID and ep.INDENT_ID=el.INDENT_ID and epd.INDENT_ID=ep.INDENT_ID
+  </select>
+
+  <!-- 查询所有 -->
+  <select id="selectshow"  resultMap="BaseResultMap" >
+    select * from erp_log
+    <where>
+      <if test="key != null and key!=''">
+        (
+        LOG_SERIAL like CONCAT('%',#{key},'%' )
+        or
+        LOG_TITLE like CONCAT('%',#{key},'%' )
+        or
+        LOG_CONTENT like CONCAT('%',#{key},'%' )
+        or
+        LOG_COMPLET like CONCAT('%',#{key},'%' )
+        or
+        CREATETIME like CONCAT('%',#{key},'%' )
+        )
+      </if>
+      and ISVA=1
+    </where>
+    limit #{page},#{limit}
+  </select>
+  <!-- 总行数-->
+  <select id="select" parameterType="map" resultType="int" >
+    select COUNT(*) from erp_log
+    <where>
+      <if test="key != null and key!=''">
+        (
+        LOG_SERIAL like CONCAT('%',#{key},'%' )
+        or
+        LOG_TITLE like CONCAT('%',#{key},'%' )
+        or
+        LOG_CONTENT like CONCAT('%',#{key},'%' )
+        or
+        LOG_COMPLET like CONCAT('%',#{key},'%' )
+        or
+        CREATETIME like CONCAT('%',#{key},'%' )
+        )
+      </if>
+      and ISVA=1
+    </where>
+
+  </select>
+</mapper>

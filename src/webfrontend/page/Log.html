@@ -48,7 +48,7 @@
 
 
 
-<table class="layui-table" lay-data="{width: 818 , height:495, url:'log/showList.action', page:true,id:'testReload',method:'post'}" lay-filter="demo">
+<table class="layui-table" lay-data="{width: 818 , height:495, url:'http://127.0.0.1:8087/api/showList', page:true,id:'testReload'}" lay-filter="demo">
     <thead>
     <tr>
         <th lay-data="{field:'logId', width:140, sort: true, fixed: true},hidden:'true'">ID</th>
@@ -72,7 +72,7 @@
 
 
 
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+ <!--注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
     var table;
     layui.use('table', function(){
@@ -124,7 +124,6 @@
                 var demoReload = $('#key');
                 table.reload('testReload', {
                     where: {
-
                         key: demoReload.val()
                     }
                 });
@@ -136,10 +135,9 @@
             active[type] ? active[type].call(this) : '';
         });
     });
-
-
-
 </script>
+
+
 
 </body>
 </html>

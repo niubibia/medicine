@@ -1,7 +1,83 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.newer.medicine.mapper.ErpProindentMapper" >
-    <resultMap id="BaseResultMap" type="ErpProindent" >
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.medicine.mapper.ErpProindentMapper">
+  <resultMap id="BaseResultMap" type="com.newer.medicine.domain.ErpProindent">
+    <id column="INDENT_ID" jdbcType="VARCHAR" property="indentId" />
+    <result column="INDENT_NUMBER" jdbcType="VARCHAR" property="indentNumber" />
+    <result column="INDENT_MONEY" jdbcType="DECIMAL" property="indentMoney" />
+    <result column="INDENT_COUNT" jdbcType="INTEGER" property="indentCount" />
+    <result column="INDENT_urgency" jdbcType="VARCHAR" property="indentUrgency" />
+    <result column="INDENT_EMETIME" jdbcType="VARCHAR" property="indentEmetime" />
+    <result column="INDENT_WORKTIME" jdbcType="VARCHAR" property="indentWorktime" />
+    <result column="INDENT_ENDTIME" jdbcType="VARCHAR" property="indentEndtime" />
+    <result column="STATE" jdbcType="INTEGER" property="state" />
+    <result column="ISVA" jdbcType="VARCHAR" property="isva" />
+    <result column="INDENT_STATE" jdbcType="VARCHAR" property="indentState" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATETIME" jdbcType="VARCHAR" property="createtime" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap2" type="com.newer.medicine.domain.ErpProindentDetail">
+    <id column="ENTDE_ID" jdbcType="VARCHAR" property="entdeId" />
+    <result column="KIN_ID" jdbcType="VARCHAR" property="kinId" />
+    <result column="INDENT_ID" property="indentId" />
+    <result column="ENTDE_NUM" jdbcType="INTEGER" property="entdeNum" />
+    <result column="NUM" jdbcType="INTEGER" property="num" />
+    <result column="ENTDE_PRICE" property="entdePrice" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="CREATETIME" jdbcType="VARCHAR" property="createTime" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="ISVA" jdbcType="VARCHAR" property="isva" />
+    <result column="KIN_NAME" jdbcType="VARCHAR" property="kinName" />
+    <result column="KIN_PRICE" jdbcType="VARCHAR" property="kinPrice" />
+  </resultMap>
+
+  <select id="selectByParam" resultMap="BaseResultMap">
+    select * from erp_proindent
+    <where>
+      ISVA=1
+      <if test="indentNumber !=null and indentNumber !=''">
+       and INDENT_NUMBER like concat('%',concat(#{indentNumber},'%'))
+      </if>
+      <if test="indentUrgency == 2 or indentUrgency == 1">
+        and INDENT_urgency=#{indentUrgency}
+      </if>
+      <if test="state==1 or state==2">
+        and state=#{state}
+      </if>
+      <if test="indentState==1 or indentState==2 or indentState==3">
+        and INDENT_STATE=#{indentState}
+      </if>
+    </where>
+    limit #{page},#{limit}
+  </select>
+
+  <!-- 查询信息条数 -->
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*) from erp_proindent
+    <where>
+      ISVA=1
+      <if test="indentNumber !=null and indentNumber !=''">
+        and INDENT_NUMBER like concat('%',concat(#{indentNumber},'%'))
+      </if>
+      <if test="indentUrgency == 2 or indentUrgency == 1">
+        and INDENT_urgency=#{indentUrgency}
+      </if>
+      <if test="state==1 or state==2">
+        and state=#{state}
+      </if>
+      <if test="indentState==1 or indentState==2 or indentState==3 or indentState==4">
+        and INDENT_STATE=#{indentState}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectById" resultMap="BaseResultMap2">
+    select pd.*,kin.KIN_NAME,kin.KIN_PRICE from erp_proindent_detail pd,erp_kinds kin where pd.ISVA=1 and INDENT_ID=#{indentId} and pd.KIN_ID=kin.KIN_ID
+  </select>
+    <resultMap id="BaseResultMap1" type="ErpProindent" >
         <id column="INDENT_ID" property="indentId" jdbcType="VARCHAR" />
         <result column="INDENT_NUMBER" property="indentNumber" jdbcType="VARCHAR" />
         <result column="INDENT_MONEY" property="indentMoney" jdbcType="DECIMAL" />
@@ -31,7 +107,7 @@
         </collection>
     </resultMap>
     <!--根据id查询生产详细信息-->
-    <select id="selectByIndentId" resultMap="BaseResultMap">
+    <select id="selectByIndentId" resultMap="BaseResultMap1">
         select p.*,pd.*,k.KIN_ID,k.KIN_NAME from erp_proindent p ,erp_proindent_detail pd,erp_kinds k
         where p.INDENT_ID = pd.INDENT_ID and pd.KIN_ID = k.KIN_ID and p.INDENT_ID=#{indentId}
     </select>
@@ -39,4 +115,5 @@
     <update id="updIndent" parameterType="ErpProindent">
         update erp_proindent set STATE = #{state} ,REMARK=#{remark} where INDENT_ID = #{indentId}
     </update>
+
 </mapper>

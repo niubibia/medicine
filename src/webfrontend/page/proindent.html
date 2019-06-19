@@ -5,7 +5,7 @@
     <title>订单管理</title>
     <link rel="stylesheet" href="../res/layui/css/layui.css" media="all">
     <script src="../res/js/jquery-2.1.3.min.js" type="text/javascript"></script>
-    <script src="../res/layui/layui.js" charset="utf-8"></script>
+    <script src="../res/layui-v2.5.4/layui/layui.js" charset="utf-8"></script>
 
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
     <style type="text/css">
@@ -34,13 +34,13 @@
         <table>
             <tr>
                 <td>
-                    <input class="layui-input" name="key" id="key" maxlength="50" placeholder="关键字" autocomplete="off">
+                    <input class="layui-input" name="key" id="key" maxlength="50" placeholder="请输入订单号" autocomplete="off">
                 </td>
                 <td>
                     <select id="indentUrgency" name="indentUrgency" lay-verify="" width="50px">
                         <option value="">是否紧急</option>
                         <option value="1">是</option>
-                        <option value="0">否</option>
+                        <option value="2">否</option>
                     </select>
                 </td>
             </tr>
@@ -64,38 +64,67 @@
             </tr>
         </table>
     </form>
-    <button class="layui-btn" style="margin-top: 5px;" data-type="reload"><i class="layui-icon">&#xe615;</i>搜索</button>
+    <button class="layui-btn" style="margin-top: 5px;" data-type="reload" onclick="table()"><i class="layui-icon">&#xe615;</i>搜索</button>
     <button class="layui-btn layui-btn-warm" onclick="add()"><i class="layui-icon">&#xe608;</i>增加订单日志</button>
 </div>
 </div>
 
 
 
-<table class="layui-table" lay-data="{width: 968, height:495, url:'dent/showList.action', page:true,id:'testReload',method:'post'}" lay-filter="demo">
-    <thead>
-    <tr>
-        <th lay-data="{field:'indentId', width:140, sort: true, fixed: true},hidden:'true'">ID</th>
-        <th lay-data="{field:'indentNumber', width:160}">生产订单编号</th>
-        <th lay-data="{field:'indentMoney', width:114}">生产订单金额</th>
-        <th lay-data="{field:'indentCount', width:76}">数量</th>
-        <th lay-data="{field:'indentUrgency', width:100,templet:'#urg', align:'center'}">是否紧急</th>
-        <th lay-data="{field:'state', width:100,templet:'#state1'}">审核状态</th>
-        <th lay-data="{field:'indentState', width:140, align:'center',templet:'#zt'}">订单生产状态</th>
-        <th lay-data="{field:'remark', width:140, align:'center'}">备注</th>
-        <th lay-data="{field:'indentEmetime', width:150, sort: true}">生产订单生成时间</th>
-        <th lay-data="{field:'indentWorktime', width:100, sort: true}">本次订单需要花费的时间</th>
-        <th lay-data="{field:'indentEndtime', width:120, sort: true}">预计完成时间</th>
-        <th lay-data="{fixed: 'right', width:280, align:'center', toolbar: '#barDemo'}"></th>
-    </tr>
-    </thead>
+<table id="dataTable" class="layui-table" lay-filter="demo">
+
 </table>
+
+<script src="../res/js/token.js"></script>
+<script>
+    $(()=>{
+        table();
+    })
+    function table(){
+        var indentNumber=$("#key").val();
+        var indentUrgency=$("#indentUrgency").val();
+        var state=$("#state").val();
+        var indentState=$("#indentState").val();
+        layui.use('table', function(){
+            var table = layui.table;
+
+            table.render({
+                //对象表格的id
+                elem: '#dataTable',
+                method:"get"
+                //请求路径
+                ,url:HOST_URL+'selectSSSH?indentNumber='+indentNumber+'&indentUrgency='+indentUrgency+'&state='+state+'&indentState='+indentState,
+                header:createAuthorizationTokenHeader(),
+                //数据
+                cols: [[
+                    //layui 2.40之后的新特性，可以增加一个 hide:true 属性，隐藏该列
+                    ,{field:'indentId', width:80, title: 'ID', hide:true}
+                    ,{field:'indentNumber', width:160, title: '生产订单编号'}
+                    ,{field:'indentMoney', width:114, title: '生产订单金额'}
+                    ,{field:'indentCount', width:76, title: '数量'}
+                    ,{field:'indentUrgency', title:'是否紧急', toolbar: '#urg', width:100,align:'center'}
+                    ,{field:'state', title:'审核状态', toolbar: '#state1', width:100,align:'center'}
+                    ,{field:'indentState', title:'订单生产状态', toolbar: '#zt', width:140,align:'center'}
+                    ,{field:'remark', width:120, title: '备注'}
+                    ,{field:'indentEmetime', width:150, title: '生产订单生成时间'}
+                    ,{field:'indentWorktime', width:100, title: '本次订单需要花费的时间'}
+                    ,{field:'indentEndtime', width:120, title: '预计完成时间'}
+                    //行内工具栏
+                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:300,align:'center'}
+                ]]
+                //开启分页
+                ,page: true
+            });
+        });
+    }
+</script>
 
 <!-- 判断是否审核 -->
 <script type="text/html" id="state1">
     {{#  if(d.state==1){ }}
     <span class="layui-btn layui-btn-danger layui-btn-small">未审核</span>
     {{# }else if(d.state==2) { }}
-    <span class="layui-btn layui-btn-warm layui-btn-small">以审核</span>
+    <span class="layui-btn layui-btn-warm layui-btn-small">已审核</span>
     {{#  } }}
 </script>
 
@@ -103,7 +132,7 @@
 <script type="text/html" id="urg">
     {{#  if(d.indentUrgency==1){ }}
     <span class="layui-btn layui-btn-warm layui-btn-small">紧急</span>
-    {{# }else if(d.indentUrgency==0) { }}
+    {{# }else if(d.indentUrgency==2) { }}
     <span class="layui-btn layui-btn-normal layui-btn-small">不紧急</span>
     {{#  } }}
 </script>
@@ -111,7 +140,7 @@
 <!-- 判断订单生产状态 -->
 <script type="text/html" id="zt">
     {{#  if(d.indentState==1){ }}
-    <span class="layui-btn layui-btn-primary layui-btn-small">订单开始</span>
+    <span class="layui-btn layui-btn-primary layui-btn-small">等待审核中</span>
     {{# }else if(d.indentState==2) { }}
     <span class="layui-btn layui-btn-warm layui-btn-small">订单生产中</span>
     {{# }else if(d.indentState==3) { }}
@@ -122,6 +151,11 @@
 </script>
 
 <script type="text/html" id="barDemo">
+    {{#  if(d.state==1){ }}
+    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="check">审核</a>
+    {{# }else { }}
+    <a class="layui-btn layui-btn-disabled layui-btn-mini">审核</a>
+    {{#  } }}
     {{#  if(d.indentState==4 && d.state==2){ }}
     <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="pf">配料</a>
     {{# }else { }}
@@ -137,7 +171,7 @@
     {{#  } }}
 </script>
 
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
 <script>
     $('.x-slide_left',window.parent.document).click();//关闭左边菜单栏
     var table;
@@ -151,13 +185,14 @@
         table.on('tool(demo)', function(obj){
             var data = obj.data;
             if(obj.event === 'detail'){
-                layer.msg('ID：'+ data.id + ' 的查看操作');
+                layer.msg('ID：'+ data.indentId + ' 的查看操作');
             } else if(obj.event === 'del'){
-                if(data.indentState==4){
+                if(data.indentState==3){
                     layer.confirm('真的删除行么', function(index){
-                        obj.del();
+                        del(data.indentId);
                         layer.close(index);
-                        url = "dent/delete.action?indentId="+data.indentId;
+                        layer.msg("删除成功", {icon: 1, time: 1000});
+                        /*url = "dent/delete.action?indentId="+data.indentId;
                         $.post(url,null,function(mes){
                             table.reload('testReload');
 
@@ -169,7 +204,7 @@
                             }
 
 
-                        },"json")
+                        },"json")*/
 
                     });
                 }else{
@@ -177,11 +212,11 @@
                 }
 
             } else if(obj.event === 'edit'){
-                if(data.indentState==4){
+                if(data.indentState!=2){
                     layer.open({
                         type:2,
                         skin: 'layui-layer-molv',//样式
-                        content:'page/proindentupdate.jsp?indentId='+data.indentId,
+                        content:'proindentupdate.html?indentId='+data.indentId,
                         area: ['80%', '50%'],
                         title: '编辑订单',
                     });
@@ -192,11 +227,14 @@
                 layer.open({
                     type:2,
                     skin: 'layui-layer-molv',//样式
-                    content:'page/proindentupdateshow.jsp?indentId='+data.indentId,
+                    content:'proindentupdateshow.html?indentId='+data.indentId,
                     area: ['80%', '80%'],
                     title: '查看订单',
                 });
+            }else if(obj.event==='check'){
+                check(data.indentId);
             }else if(obj.event==='pf'){
+                //配料。等着材料出库
                 layer.open({
                     type:2,
                     skin: 'layui-layer-molv',//样式
@@ -206,6 +244,7 @@
                 });
 
             }else if(obj.event==='zj'){
+                //质检。等着药品入库
                 var da = {"indentId":data.indentId};
                 $.post("ErpQualityAction/selectShowNew.action",da,function(mes){
                     if(mes.state==1){//真确的样式
@@ -219,7 +258,7 @@
         });
 
 
-        var $ = layui.$, active = {
+        /*var $ = layui.$, active = {
             reload: function(){
                 var demoReload = $('#key');
                 var demoReload1 = $('#indentUrgency');
@@ -235,12 +274,12 @@
                     }
                 });
             }
-        };
+        };*/
 
-        $('.demoTable .layui-btn').on('click', function(){
+        /*$('.demoTable .layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
-        });
+        });*/
     });
 
     function add(){
@@ -248,7 +287,7 @@
         layer.open({
             type:2,
             skin: 'layui-layer-molv',//样式
-            content:'page/Logadd.jsp',
+            content:'Logadd.html',
             area: ['98%', '80%'],
             title: '增加订单日志',
         });
@@ -256,6 +295,34 @@
     }
 
 
+    //删除
+    function del(id) {
+        $.ajax({
+            type:"put",
+            url:HOST_URL+"delPROINDENT?indentId="+id,
+            dataType:"json",
+            success:function (data) {
+                if (data>0){
+                    location.reload();
+                }
+            }
+        })
+
+    }
+
+    //审核
+    function check(id) {
+        $.ajax({
+            type:"put",
+            url:HOST_URL+"updateCheckState?indentId="+id,
+            dataType:"json",
+            success:function (data) {
+                if (data>0){
+                    location.reload();
+                }
+            }
+        })
+    }
 </script>
 
 </body>

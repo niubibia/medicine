@@ -26,8 +26,8 @@ public class Erp_purchaseServer {
     }
 
     //查询详情
-    public Erp_purchase selectById(String PURC_ID){
-        return erp_purchaseMapper.selectById(PURC_ID);
+    public List<Erp_purchase> selectById(String PURC_ID){
+        return erp_purchaseMapper.selectById1(PURC_ID);
     }
 
     /**

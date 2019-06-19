@@ -1,182 +1,120 @@
 package com.newer.medicine.domain;
 
-import java.math.BigDecimal;
 
-/**
- * 订单明细
- * @author dong
- * 2017年12月14日
- */
-public class ErpProindentDetail {
+import java.io.Serializable;
+
+public class ErpProindentDetail implements Serializable {
+    private static final long serialVersionUID = -5932233870623896223L;
     private String entdeId;
-
     private String kinId;
-
     private String indentId;
-
-    private Integer entdeNum;
-
-    private Integer num;
-
-    private BigDecimal entdePrice;
-
+    private int entdeNum;
+    private int num;
+    private double entdePrice;
     private String creater;
-
-    private String createtime;
-
+    private String createTime;
     private String remark;
-
     private String isva;
-    private String kindName;
-    
+    private String kinName;
+    private double kinPrice;
 
-    public String getKindName() {
-		return kindName;
-	}
+    public double getKinPrice() {
+        return kinPrice;
+    }
 
-	public void setKindName(String kindName) {
-		this.kindName = kindName;
-	}
-	/**
-	 * 生产订单明细id
-	 * @return
-	 */
+    public void setKinPrice(double kinPrice) {
+        this.kinPrice = kinPrice;
+    }
+
+    public String getKinName() {
+        return kinName;
+    }
+
+    public void setKinName(String kinName) {
+        this.kinName = kinName;
+    }
+
+    public ErpProindentDetail() {
+    }
+
     public String getEntdeId() {
         return entdeId;
     }
-    /**
-	 * 生产订单明细id
-	 * @return
-	 */
+
     public void setEntdeId(String entdeId) {
-        this.entdeId = entdeId == null ? null : entdeId.trim();
+        this.entdeId = entdeId;
     }
-    /**
-     * ID(货品表)
-     * @return
-     */
+
     public String getKinId() {
         return kinId;
     }
-    /**
-     * ID(货品表)
-     * @return
-     */
+
     public void setKinId(String kinId) {
-        this.kinId = kinId == null ? null : kinId.trim();
+        this.kinId = kinId;
     }
-    /**
-     * 生产订单主键
-     * @return
-     */
+
     public String getIndentId() {
         return indentId;
     }
-    /**
-     * 生产订单主键
-     * @return
-     */
+
     public void setIndentId(String indentId) {
-        this.indentId = indentId == null ? null : indentId.trim();
+        this.indentId = indentId;
     }
-	/**
-	 * 总数量
-	 * @return
-	 */
-    public Integer getEntdeNum() {
+
+    public int getEntdeNum() {
         return entdeNum;
     }
-    /**
-	 * 总数量
-	 * @return
-	 */
-    public void setEntdeNum(Integer entdeNum) {
+
+    public void setEntdeNum(int entdeNum) {
         this.entdeNum = entdeNum;
     }
-    /**
-     * 已生产的总数量
-     * @return
-     */
-    public Integer getNum() {
+
+    public int getNum() {
         return num;
     }
-    /**
-     * 已生产的总数量
-     * @return
-     */
-    public void setNum(Integer num) {
+
+    public void setNum(int num) {
         this.num = num;
     }
-    /**
-     * 金额
-     * @return
-     */
-    public BigDecimal getEntdePrice() {
+
+    public double getEntdePrice() {
         return entdePrice;
     }
-    /**
-     * 金额
-     * @return
-     */
-    public void setEntdePrice(BigDecimal entdePrice) {
+
+    public void setEntdePrice(double entdePrice) {
         this.entdePrice = entdePrice;
     }
 
-    /**
-     * 创建人
-     * @return
-     */
     public String getCreater() {
         return creater;
     }
-    /**
-     * 创建人
-     * @return
-     */
+
     public void setCreater(String creater) {
-        this.creater = creater == null ? null : creater.trim();
+        this.creater = creater;
     }
-    /**
-     * 创建时间
-     * @return
-     */
-    public String getCreatetime() {
-        return createtime;
+
+    public String getCreateTime() {
+        return createTime;
     }
-    /**
-     * 创建时间
-     * @return
-     */
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime == null ? null : createtime.trim();
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
-    /**
-     * 备注
-     * @return
-     */
+
     public String getRemark() {
         return remark;
     }
-    /**
-     * 备注
-     * @return
-     */
+
     public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+        this.remark = remark;
     }
 
-    /**
-     * 是否有效
-     * @return
-     */
     public String getIsva() {
         return isva;
     }
-    /**
-     * 是否有效
-     * @return
-     */
+
     public void setIsva(String isva) {
-        this.isva = isva == null ? null : isva.trim();
+        this.isva = isva;
     }
 }
+

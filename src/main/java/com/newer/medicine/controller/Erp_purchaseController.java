@@ -5,6 +5,7 @@ import com.newer.medicine.server.Erp_purchaseServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ public class Erp_purchaseController {
     @Autowired
     private Erp_purchaseServer erp_purchaseServer;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "selectErpApplyasset",method = RequestMethod.GET)
     public Map<String,Object> selectErp_applyasset(@RequestParam(value = "PURC_TITLE",required = false)String PURC_TITLE,
                                                    @RequestParam(value = "PURC_NAME",required = false)String PURC_NAME,
@@ -37,7 +39,7 @@ public class Erp_purchaseController {
     //查询详情
     @RequestMapping(value = "selectById",method =RequestMethod.GET )
     public ResponseEntity<?> selectById(@RequestParam(value = "PURC_ID",required =false )String PURC_ID){
-Erp_purchase erp_purchase=erp_purchaseServer.selectById(PURC_ID);
+        List<Erp_purchase> erp_purchase=erp_purchaseServer.selectById(PURC_ID);
 return new ResponseEntity<>(erp_purchase,HttpStatus.OK);
     }
 
