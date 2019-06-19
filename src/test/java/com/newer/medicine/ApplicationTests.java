@@ -1,8 +1,13 @@
 package com.newer.medicine;
 
-import com.newer.medicine.domain.Erp_Keids;
+import com.newer.medicine.domain.*;
+import com.newer.medicine.mapper.ErpLedgyrMapper;
+import com.newer.medicine.mapper.Erp_auditMapper;
 import com.newer.medicine.mapper.Erp_purchaseMapper;
+import com.newer.medicine.mapper.Erp_purchase_detailsMapper;
+import com.newer.medicine.server.ErpLedgyrService;
 import com.newer.medicine.server.Erp_KeidsServer;
+import com.newer.medicine.server.Erp_purchaseServer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +16,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,26 +28,29 @@ public class ApplicationTests {
 
  @Autowired
     private Erp_purchaseMapper erp_purchaseMapper;
-    private BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+ @Autowired
+ private Erp_purchase_detailsMapper erp_purchase_detailsMapper;
+ @Autowired
+ private ErpLedgyrMapper erpLedgyrMapper;
+ @Test
+ public void add3(){
+   List<ErpLedgyr> ledgyrList=erpLedgyrMapper.selectErpLedger(new Date(),1,2);
+   ledgyrList.forEach(s->{
+       System.out.println(s.getAnnexId());
+   });
 
-    @Autowired
-    private Erp_KeidsServer erp_keidsServer;
+ }
 
 
-@Test
-    public void add(){
-    System.out.println(passwordEncoder.encode("admin"));
-}
 
 
     @Test
     public void contextLoads() {
 
-        List<Erp_Keids> erp_applyassetList=erp_keidsServer.findStation();
-        erp_applyassetList.forEach(s->{
-            System.out.println(s.getKinId());
-        });
     }
+@Test
+    public void add(){
 
+}
 
 }

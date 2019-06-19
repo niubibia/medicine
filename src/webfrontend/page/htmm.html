@@ -34,18 +34,11 @@
         </fieldset>
 
         <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
-        <div class="layui-form-item">
-            <label class="layui-form-label">订单编号</label>
-            <div class="layui-input-block">
-                <input type="text" name="purcTitle" id="PURC_ID"
-                       placeholder="请输入" autocomplete="off" class="layui-input">
-            </div>
-        </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">采购标题</label>
             <div class="layui-input-block">
-                <input type="text" name="purcTitle" id="purcTitle"
+                <input type="text" name="purcTitle" id="PURC_TITLE"
                        placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -65,17 +58,12 @@
                 </div>
                 <div class="layui-input-inline">
                     <input name="number" lay-verify="required" placeholder="请输入数量"
-                          id="PUR_TOTAL_NUMBER" autocomplete="off" class="layui-input" type="text">
+                           id="PUR_TOTAL_NUMBER" autocomplete="off" class="layui-input" type="text">
                 </div>
             </div>
         </div>
 
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <a href="javascript:void(0)" class="layui-btn layui-bg-gray"
-                   style="width: 62.5%;" onclick="addRaw()">添加原材料</a>
-            </div>
-        </div>
+
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" id="submitALL" lay-submit lay-filter="sbt">立即提交</button>
@@ -89,28 +77,45 @@
 <script src="../res/js/jquery-3.3.1.min.js"></script>
 <script>
     $(()=>{
-        $("#submitALL").click(()=>{
-            $.ajax({
-                type:"POST",
-                url:HOST_URL+"insertAll",
-                data:{
-                    "PURC_ID":$("#PURC_ID").val(),
-                    "PURC_TITLE":$("#rawId").val(),
-                    "PURC_NAME":$("#PURC_NAME").val(),
-                    "PURC_TOTAL_PRICE":$("#PUR_TOTAL_NUMBER").val()
-                },
-                dataType:"json",
-                success:function (data) {
-                    console.log(data);
-                    alert(data)
-                    if (data){
-                        alert("添加成功")
-                    }else {
-                        alert("添加失败")
-                    }
-                }
+        var id=GetQueryString("id")
+        var state=GetQueryString("state")
+        alert(state)
 
-            })
+    })
+    function GetQueryString(id){
+        var reg = new RegExp("(^|&)"+ id +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+
+    function GetQueryString(state){
+        var reg = new RegExp("(^|&)"+ state +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+    var id=GetQueryString("id")
+    var state=GetQueryString("state")
+    $("#submitALL").click(()=>{
+        $.ajax({
+            type:"PUT",
+            url:HOST_URL+"updataByErp_purchase",
+            data:{
+                "PURC_ID":id,
+                "PURC_TITLE":$("#PURC_TITLE").val(),
+                "PURC_NAME":$("#PURC_NAME").val(),
+                "STATE":state+1,
+                "PURC_TOTAL_PRICE":$("#PUR_TOTAL_NUMBER").val()
+            },
+            dataType:"json",
+            success:function (data) {
+                console.log(data);
+                if (data){
+                    alert("添加成功")
+                }else {
+                    alert("添加失败")
+                }
+            }
+
         })
     })
 

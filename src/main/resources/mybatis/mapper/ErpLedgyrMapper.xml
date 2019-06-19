@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.newer.medicine.mapper.ErpLedgyrMapper">
+    <resultMap id="mm" type="com.newer.medicine.domain.ErpLedgyr">
+        <id column="GYR_ID" property="gyrId" jdbcType="VARCHAR" />
+        <result column="FDPRO_ID" property="fdproId" jdbcType="VARCHAR" />
+        <result column="SALE_ID" property="saleId" jdbcType="VARCHAR" />
+        <result column="ANNEX_ID" property="annexId" jdbcType="VARCHAR" />
+        <result column="GYR_SREIAL" property="gyrSreial" jdbcType="VARCHAR" />
+        <result column="GYR_PRICE" property="gyrPrice" jdbcType="DECIMAL" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+        <result column="SALE_DATE" property="saleDate" jdbcType="VARCHAR" />
+        <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+        <result column="ISVA" property="isva" jdbcType="INTEGER" />
+        <result column="SALE_NUM" property="saleNum" jdbcType="DOUBLE" />
+        <result column="SALE_MONEY" property="saleMoney" jdbcType="DOUBLE" />
+        <result column="FDPRO_WARECOUNT" property="fdproWarecount" jdbcType="INTEGER" />
+        <result column="FDPRO_SUMPRICE" property="fdproSumprice" jdbcType="DOUBLE" />
+        <result column="FDPRO_TIME" property="fdproTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+<select id="selectErpLedger" resultMap="mm">
+    select * from erp_ledgyr ld,erp_sctockmp st
+    <where>
+        ld.SALE_ID=st.SALE_ID
+        <if test="SALE_DATE!=null ">
+        and SALE_DATE like concat('%',concat(#{SALE_DATE},'%'))
+        </if>
+        <if test="pageIndex!=null and pageSize!=null ">
+            limit #{pageIndex} , #{pageSize}
+        </if>
+    </where>
+</select>
+<!--Byid查询-->
+    <select id="selectByGyrId" resultMap="mm">
+        SELECT er.GYR_PRICE,er.REMARK,ep.SALE_NUM,ep.SALE_MONEY,ep.SALE_DATE FROM erp_ledgyr er,erp_sctockmp ep
+        <where>
+            er.SALE_ID=ep.SALE_ID AND er.GYR_ID=#{GYR_ID}
+        </where>
+    </select>
+<!--支出查询-->
+    <select id="selectFdproform" resultMap="mm">
+        SELECT * FROM erp_ledgyr er,erp_fdproform em
+        <where>
+            er.FDPRO_ID=em.FDPRO_ID
+            <if test="FDPRO_TIME!=null and FDPRO_TIME!=''">
+                and FDPRO_TIME like concat('%',concat(#{FDPRO_TIME},'%'))
+            </if>
+            <if test="pageIndex!=null and pageSize!=null ">
+                limit #{pageIndex} , #{pageSize}
+            </if>
+        </where>
+    </select>
+
+    <!--支出ById查询-->
+    <select id="selectFdproformByGYRID" resultMap="mm">
+        SELECT * FROM erp_ledgyr er,erp_fdproform em
+        <where>
+            er.FDPRO_ID=em.FDPRO_ID AND er.GYR_ID=#{GYR_ID}
+        </where>
+    </select>
+</mapper>

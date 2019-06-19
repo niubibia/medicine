@@ -1,13 +1,19 @@
 package com.newer.medicine.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 分店支出收入
  * @author wzl
  */
-public class ErpLedgyr {
-	
+public class ErpLedgyr implements Serializable {
+
+    private static final long serialVersionUID = -1603261204280571198L;
     private String gyrId;
 
     private String fdproId;
@@ -27,6 +33,66 @@ public class ErpLedgyr {
     private String createtime;
 
     private Integer isva;
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+private Date saleDate;
+private double saleMoney;
+private double saleNum;
+
+private Integer fdproWarecount;
+private double fdproSumprice;
+private String fdproTime;
+
+    public Integer getFdproWarecount() {
+        return fdproWarecount;
+    }
+
+    public void setFdproWarecount(Integer fdproWarecount) {
+        this.fdproWarecount = fdproWarecount;
+    }
+
+    public double getFdproSumprice() {
+        return fdproSumprice;
+    }
+
+    public void setFdproSumprice(double fdproSumprice) {
+        this.fdproSumprice = fdproSumprice;
+    }
+
+    public String getFdproTime() {
+        return fdproTime;
+    }
+
+    public void setFdproTime(String fdproTime) {
+        this.fdproTime = fdproTime;
+    }
+
+    public double getSaleNum() {
+        return saleNum;
+    }
+
+    public void setSaleNum(double saleNum) {
+        this.saleNum = saleNum;
+    }
+
+    public double getSaleMoney() {
+        return saleMoney;
+    }
+
+    public void setSaleMoney(double saleMoney) {
+        this.saleMoney = saleMoney;
+    }
+
+    public ErpLedgyr() {
+    }
+
+    public Date getSaleDate() {
+        return saleDate;
+    }
+
+    public void setSaleDate(Date saleDate) {
+        this.saleDate = saleDate;
+    }
 
     /**
      * 分店支出收入id

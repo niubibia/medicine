@@ -1,14 +1,11 @@
 package com.newer.medicine.controller;
 
 import com.newer.medicine.domain.Erp_audit;
-import com.newer.medicine.service.Erp_auditService;
+import com.newer.medicine.server.Erp_auditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,4 +19,6 @@ public class Erp_auditController {
         List<Erp_audit> line=erp_auditService.selectByPURCid(PURC_ID);
         return new ResponseEntity<>(line,HttpStatus.OK);
     }
+
+
 }
