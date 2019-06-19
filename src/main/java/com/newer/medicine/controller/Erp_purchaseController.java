@@ -1,6 +1,5 @@
 package com.newer.medicine.controller;
 
-import com.newer.medicine.domain.Erp_audit;
 import com.newer.medicine.domain.Erp_purchase;
 import com.newer.medicine.domain.Erp_purchase_details;
 import com.newer.medicine.server.Erp_purchaseServer;
@@ -28,7 +27,7 @@ public class Erp_purchaseController {
     @Autowired
     private Erp_purchase_detailsService erp_purchase_detailsService;
 
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "selectErpApplyasset",method = RequestMethod.GET)
     public Map<String,Object> selectErp_applyasset(@RequestParam(value = "PURC_TITLE",required = false)String PURC_TITLE,
                                                    @RequestParam(value = "PURC_NAME",required = false)String PURC_NAME,
@@ -48,6 +47,16 @@ public class Erp_purchaseController {
     public ResponseEntity<?> selectById(@RequestParam(value = "PURC_ID",required =false )String PURC_ID){
         List<Erp_purchase> erp_purchase=erp_purchaseServer.selectById(PURC_ID);
 return new ResponseEntity<>(erp_purchase,HttpStatus.OK);
+    }
+
+    /**
+     * 根据采购id查询详细信息
+     * @param purcId 采购id
+     * @return
+     */
+    @RequestMapping(value = "selectByPrimaryKey",method = RequestMethod.GET)
+    public ResponseEntity<?> selectByPrimaryKey(@RequestParam("purcId")String purcId){
+        return new ResponseEntity<>(erp_purchaseServer.selectByPrimaryKey(purcId),HttpStatus.OK);
     }
 
     //新增

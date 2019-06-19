@@ -1,6 +1,7 @@
 package com.newer.medicine.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 采购订单表
@@ -12,7 +13,7 @@ public class Erp_purchase implements Serializable {
    private String PURC_SERIAL;//采购订单表
     private String PURC_TITLE;//采购标题
     private String PURC_NAME;//采购人
-    private int STATE;//状态
+    private Integer STATE;//状态
     private String PURC_TIME;//采购时间
     private String CREATE;//创建人
     private String CREATETIME;//创建时间
@@ -20,6 +21,7 @@ public class Erp_purchase implements Serializable {
     private String RAW_NAME;//原材料名字
     private double PUR_TOTAL_NUMBER;//单价
     private double PUR_TOTAL_PRICE;//总价
+    private List<ErpPurchaseDetails> det;//采购详细表
     private double PURC_TOTAL_PRICE;
 
     public Erp_purchase() {
@@ -131,5 +133,13 @@ public class Erp_purchase implements Serializable {
 
     public void setISVA(Integer ISVA) {
         this.ISVA = ISVA;
+    }
+
+    public List<ErpPurchaseDetails> getDet() {
+        return det;
+    }
+
+    public void setDet(List<ErpPurchaseDetails> det) {
+        this.det = det;
     }
 }

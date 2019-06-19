@@ -1,9 +1,8 @@
 package com.newer.medicine.domain;
 
-import java.io.Serializable;
+import java.util.List;
 
-public class ErpLog implements Serializable {
-    private static final long serialVersionUID = -7673358437248091118L;
+public class ErpLog {
     private String logId;
 
     private String indentId;
@@ -29,8 +28,14 @@ public class ErpLog implements Serializable {
     private String creater;
 
     private String remark;
+    private List<ErpLogDetail> erpLogDetails;
 
-    public ErpLog() {
+    public List<ErpLogDetail> getErpLogDetails() {
+        return erpLogDetails;
+    }
+
+    public void setErpLogDetails(List<ErpLogDetail> erpLogDetails) {
+        this.erpLogDetails = erpLogDetails;
     }
 
     public String getLogId() {
@@ -38,7 +43,7 @@ public class ErpLog implements Serializable {
     }
 
     public void setLogId(String logId) {
-        this.logId = logId;
+        this.logId = logId == null ? null : logId.trim();
     }
 
     public String getIndentId() {
@@ -46,7 +51,7 @@ public class ErpLog implements Serializable {
     }
 
     public void setIndentId(String indentId) {
-        this.indentId = indentId;
+        this.indentId = indentId == null ? null : indentId.trim();
     }
 
     public String getLogSerial() {
@@ -54,7 +59,7 @@ public class ErpLog implements Serializable {
     }
 
     public void setLogSerial(String logSerial) {
-        this.logSerial = logSerial;
+        this.logSerial = logSerial == null ? null : logSerial.trim();
     }
 
     public String getLogTitle() {
@@ -62,7 +67,7 @@ public class ErpLog implements Serializable {
     }
 
     public void setLogTitle(String logTitle) {
-        this.logTitle = logTitle;
+        this.logTitle = logTitle == null ? null : logTitle.trim();
     }
 
     public String getLogContent() {
@@ -70,7 +75,7 @@ public class ErpLog implements Serializable {
     }
 
     public void setLogContent(String logContent) {
-        this.logContent = logContent;
+        this.logContent = logContent == null ? null : logContent.trim();
     }
 
     public Integer getLogNum() {
@@ -94,7 +99,7 @@ public class ErpLog implements Serializable {
     }
 
     public void setLogPerson(String logPerson) {
-        this.logPerson = logPerson;
+        this.logPerson = logPerson == null ? null : logPerson.trim();
     }
 
     public Integer getIsva() {
@@ -118,7 +123,7 @@ public class ErpLog implements Serializable {
     }
 
     public void setCreatetime(String createtime) {
-        this.createtime = createtime;
+        this.createtime = createtime == null ? null : createtime.trim();
     }
 
     public String getCreater() {
@@ -126,7 +131,7 @@ public class ErpLog implements Serializable {
     }
 
     public void setCreater(String creater) {
-        this.creater = creater;
+        this.creater = creater == null ? null : creater.trim();
     }
 
     public String getRemark() {
@@ -134,6 +139,6 @@ public class ErpLog implements Serializable {
     }
 
     public void setRemark(String remark) {
-        this.remark = remark;
+        this.remark = remark == null ? null : remark.trim();
     }
 }

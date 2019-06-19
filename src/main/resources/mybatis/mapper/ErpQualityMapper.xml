@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.medicine.mapper.ErpQualityMapper">
+
+    <resultMap id="qualityMap" type="ErpQuality" >
+        <id column="QUA_ID" property="quaId" jdbcType="VARCHAR" />
+        <result column="INDENT_ID" property="indentId" jdbcType="VARCHAR" />
+        <result column="PURC_ID" property="purcId" jdbcType="VARCHAR" />
+        <result column="QUA_SREIAL" property="quaSreial" jdbcType="VARCHAR" />
+        <result column="QUA_QC" property="quaQc" jdbcType="VARCHAR" />
+        <result column="QUA_GOOD" property="quaGood" jdbcType="INTEGER" />
+        <result column="QUA_BAB" property="quaBab" jdbcType="INTEGER" />
+        <result column="QUA_ISVA" property="quaIsva" jdbcType="INTEGER" />
+        <result column="ISVA" property="isva" jdbcType="INTEGER" />
+        <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+        <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        <!-- 一对多关系   property 属性值   ofType 集合类型   原材料对药效的关系-->
+        <collection property="det" ofType="ErpQualityDetail">
+            <id column="QDET_ID" property="qdetId" jdbcType="VARCHAR" />
+            <result column="QUA_ID" property="quaId" jdbcType="VARCHAR" />
+            <result column="RAW_ID" property="rawId" jdbcType="VARCHAR" />
+            <result column="KIN_ID" property="kinId" jdbcType="VARCHAR" />
+            <result column="QDET_GOOD" property="qdetGood" jdbcType="INTEGER" />
+            <result column="QDET_BAB" property="qdetBab" jdbcType="INTEGER" />
+            <result column="KIN_NAME" property="kindName" jdbcType="VARCHAR" />
+            <result column="RAW_NAME" property="rawName" jdbcType="VARCHAR" />
+            <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+            <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    <!--查询质检信息-->
+    <select id="selectQuality" resultMap="qualityMap">
+        select q.* from erp_quality q
+        <where>
+            q.QUA_ISVA = #{quaIsva}
+            <if test="keyWords != null and keyWords != ''">
+                and q.qua_sreial like concat ('%',concat(#{keyWords},'%'))
+            </if>
+        </where>
+        and q.isva= 1 order by q.createtime desc limit #{pageIndex},#{limit}
+    </select>
+    <!--查询质检总记录数-->
+    <select id="selectCounts" resultType="int">
+        select count(*) from erp_quality q
+        <where>
+            q.QUA_ISVA = #{quaIsva}
+            <if test="keyWords!=null and keyWords!=''">
+                and q.qua_sreial like concat('%',concat(#{keyWords},'%'))
+            </if>
+        </where>
+        and q.isva= 1
+    </select>
+
+    <!--查询质检详细信息-->
+    <select id="selectQualityDetail" resultMap="qualityMap">
+        select q.*,qu.* ,r.raw_name ,k.kin_name from erp_quality qu ,erp_quality_detail q
+        left join erp_raw r on q.raw_id = r.raw_id
+        left join erp_kinds k on k.kin_id = q.kin_id
+        where q.qua_id = qu.qua_id and q.QUA_ID = #{quaId}
+    </select>
+    <!--更改质检状态-->
+    <update id="updquaIsva" parameterType="ErpQuality">
+        update erp_quality set QUA_ISVA = #{quaIsva} ,REMARK=#{remark} where QUA_ID = #{quaId}
+    </update>
+    <!--更改-->
+    <update id="updateByPrimaryKeySelective" parameterType="ErpQuality" >
+        update erp_quality
+        <set >
+            <if test="indentId != null" >
+                INDENT_ID = #{indentId,jdbcType=VARCHAR},
+            </if>
+            <if test="purcId != null" >
+                PURC_ID = #{purcId,jdbcType=VARCHAR},
+            </if>
+            <if test="quaSreial != null" >
+                QUA_SREIAL = #{quaSreial,jdbcType=VARCHAR},
+            </if>
+            <if test="quaQc != null" >
+                QUA_QC = #{quaQc,jdbcType=VARCHAR},
+            </if>
+            <if test="quaGood != null" >
+                QUA_GOOD = #{quaGood,jdbcType=INTEGER},
+            </if>
+            <if test="quaBab != null" >
+                QUA_BAB = #{quaBab,jdbcType=INTEGER},
+            </if>
+            <if test="quaIsva != null" >
+                QUA_ISVA = #{quaIsva,jdbcType=INTEGER},
+            </if>
+            <if test="isva != null" >
+                ISVA = #{isva,jdbcType=INTEGER},
+            </if>
+            <if test="creater != null" >
+                CREATER = #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                CREATETIME = #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where QUA_ID = #{quaId,jdbcType=VARCHAR}
+    </update>
+</mapper>

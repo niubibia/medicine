@@ -18,6 +18,20 @@
     <result column="CREATER" jdbcType="VARCHAR" property="creater" />
   </resultMap>
 
+  <resultMap id="BaseResultMap2" type="com.newer.medicine.domain.ErpProindentDetail">
+    <id column="ENTDE_ID" jdbcType="VARCHAR" property="entdeId" />
+    <result column="KIN_ID" jdbcType="VARCHAR" property="kinId" />
+    <result column="INDENT_ID" property="indentId" />
+    <result column="ENTDE_NUM" jdbcType="INTEGER" property="entdeNum" />
+    <result column="NUM" jdbcType="INTEGER" property="num" />
+    <result column="ENTDE_PRICE" property="entdePrice" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="CREATETIME" jdbcType="VARCHAR" property="createTime" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="ISVA" jdbcType="VARCHAR" property="isva" />
+    <result column="KIN_NAME" jdbcType="VARCHAR" property="kinName" />
+    <result column="KIN_PRICE" jdbcType="VARCHAR" property="kinPrice" />
+  </resultMap>
   <select id="selectByParam" resultMap="BaseResultMap">
     select * from erp_proindent
     <where>
@@ -57,4 +71,47 @@
       </if>
     </where>
   </select>
+
+  <select id="selectById" resultMap="BaseResultMap2">
+    select pd.*,kin.KIN_NAME,kin.KIN_PRICE from erp_proindent_detail pd,erp_kinds kin where pd.ISVA=1 and INDENT_ID=#{indentId} and pd.KIN_ID=kin.KIN_ID
+  </select>
+ <resultMap id="BaseResultMap1" type="com.newer.medicine.domain.ErpProindent" >
+        <id column="INDENT_ID" property="indentId" jdbcType="VARCHAR" />
+        <result column="INDENT_NUMBER" property="indentNumber" jdbcType="VARCHAR" />
+        <result column="INDENT_MONEY" property="indentMoney" jdbcType="DECIMAL" />
+        <result column="INDENT_COUNT" property="indentCount" jdbcType="INTEGER" />
+        <result column="INDENT_urgency" property="indentUrgency" jdbcType="VARCHAR" />
+        <result column="INDENT_EMETIME" property="indentEmetime" jdbcType="VARCHAR" />
+        <result column="INDENT_WORKTIME" property="indentWorktime" jdbcType="VARCHAR" />
+        <result column="INDENT_ENDTIME" property="indentEndtime" jdbcType="VARCHAR" />
+        <result column="STATE" property="state" jdbcType="INTEGER" />
+        <result column="ISVA" property="isva" jdbcType="VARCHAR" />
+        <result column="INDENT_STATE" property="indentState" jdbcType="VARCHAR" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+        <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+        <collection property="det" ofType="ErpProindentDetail">
+            <id column="ENTDE_ID" property="entdeId" jdbcType="VARCHAR" />
+            <result column="KIN_ID" property="kinId" jdbcType="VARCHAR" />
+            <result column="INDENT_ID" property="indentId" jdbcType="VARCHAR" />
+            <result column="ENTDE_NUM" property="entdeNum" jdbcType="INTEGER" />
+            <result column="NUM" property="num" jdbcType="INTEGER" />
+            <result column="ENTDE_PRICE" property="entdePrice" jdbcType="DECIMAL" />
+            <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+            <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+            <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+            <result column="ISVA" property="isva" jdbcType="VARCHAR" />
+            <result column="KIN_NAME" property="kinName" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    <!--根据id查询生产详细信息-->
+    <select id="selectByIndentId" resultMap="BaseResultMap1">
+        select p.*,pd.*,k.KIN_ID,k.KIN_NAME from erp_proindent p ,erp_proindent_detail pd,erp_kinds k
+        where p.INDENT_ID = pd.INDENT_ID and pd.KIN_ID = k.KIN_ID and p.INDENT_ID=#{indentId}
+    </select>
+    <!--修改生产状态-->
+    <update id="updIndent" parameterType="ErpProindent">
+        update erp_proindent set STATE = #{state} ,REMARK=#{remark} where INDENT_ID = #{indentId}
+    </update>
+
 </mapper>

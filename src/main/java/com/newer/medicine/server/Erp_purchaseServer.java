@@ -35,9 +35,27 @@ public class Erp_purchaseServer {
 
     //查询详情
     public List<Erp_purchase> selectById(String PURC_ID){
-        return erp_purchaseMapper.selectById(PURC_ID);
+        return erp_purchaseMapper.selectById1(PURC_ID);
     }
 
+    /**
+     * 根据采购id查询详细信息
+     * @param purcId 采购id
+     * @return
+     */
+    public Erp_purchase selectByPrimaryKey(String purcId){
+        return erp_purchaseMapper.selectByPrimaryKey(purcId);
+    }
+
+    /**
+     * 修改采购状态
+     * @param erpPurchase
+     * @return
+     */
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+    public int updPurchase(Erp_purchase erpPurchase){
+        return erp_purchaseMapper.updPurchase(erpPurchase);
+    }
 
     //新增
     public int insertErp_purchase(String PURC_ID,String PURC_TITLE,String PURC_NAME,String PURC_TIME,String CREATETIME,int PURC_TOTAL_PRICE){
@@ -53,7 +71,7 @@ return i;
     public int updateByPURCid(int STATE,String PURC_ID){
         return erp_purchaseMapper.updateByPURCid(STATE,PURC_ID);
     }
-    
+
     //删除
     public int delectErp_purchase(String PURC_ID){
         return erp_purchaseMapper.delectErp_purchase(PURC_ID);

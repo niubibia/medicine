@@ -2,8 +2,10 @@ package com.newer.medicine.mapper;
 
 import com.newer.medicine.domain.ErpBank;
 import com.newer.medicine.domain.ErpBankExample;
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+@Repository
 public interface ErpBankMapper {
     int deleteByPrimaryKey(String bankId);
 
@@ -18,4 +20,6 @@ public interface ErpBankMapper {
     int updateByPrimaryKeySelective(ErpBank record);
 
     int updateByPrimaryKey(ErpBank record);
+
+    String selectSerial(String data);
 }
