@@ -40,4 +40,14 @@ public class Erp_purchaseController {
 Erp_purchase erp_purchase=erp_purchaseServer.selectById(PURC_ID);
 return new ResponseEntity<>(erp_purchase,HttpStatus.OK);
     }
+
+    /**
+     * 根据采购id查询详细信息
+     * @param purcId 采购id
+     * @return
+     */
+    @RequestMapping(value = "selectByPrimaryKey",method = RequestMethod.GET)
+    public ResponseEntity<?> selectByPrimaryKey(@RequestParam("purcId")String purcId){
+        return new ResponseEntity<>(erp_purchaseServer.selectByPrimaryKey(purcId),HttpStatus.OK);
+    }
 }

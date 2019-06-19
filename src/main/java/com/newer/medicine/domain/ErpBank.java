@@ -1,25 +1,28 @@
 package com.newer.medicine.domain;
 
+/**
+ * 入库表
+ */
 public class ErpBank {
-    private String bankId;
+    private String bankId; //入库id
 
-    private String bankNumber;
+    private String bankNumber; // 入库编号
 
-    private String bankTime;
+    private String bankTime; // 入库时间
 
-    private Integer bankCount;
+    private Integer bankCount; //入库数量
 
-    private String bankStaffid;
+    private String bankStaffid; //入库人id
 
-    private Integer isva;
+    private Integer isva; //是否有效
 
-    private String createtime;
+    private String createtime; // 创建时间
 
-    private String creater;
+    private String creater; // 创建人
 
-    private String reaark;
+    private String reaark; // 备注
 
-    private Integer bankIsva;
+    private Integer bankIsva; // 入库状态
 
     public String getBankId() {
         return bankId;

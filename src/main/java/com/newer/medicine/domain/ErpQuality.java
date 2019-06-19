@@ -1,11 +1,14 @@
 package com.newer.medicine.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 质检表
  */
-public class ErpQuality {
+public class ErpQuality implements Serializable {
+
+    private static final long serialVersionUID = -3183192452296948997L;
     private String quaId;//质检id、
 
     private String indentId;//生产id
@@ -29,7 +32,44 @@ public class ErpQuality {
     private String createtime;//创建时间
 
     private String remark;//备注
-    
+
+    private Integer qdetGood;
+    private Integer qdetBad;
+    private String rawId;
+    private String kinId;
+
+    public Integer getQdetGood() {
+        return qdetGood;
+    }
+
+    public void setQdetGood(Integer qdetGood) {
+        this.qdetGood = qdetGood;
+    }
+
+    public Integer getQdetBad() {
+        return qdetBad;
+    }
+
+    public void setQdetBad(Integer qdetBad) {
+        this.qdetBad = qdetBad;
+    }
+
+    public String getRawId() {
+        return rawId;
+    }
+
+    public void setRawId(String rawId) {
+        this.rawId = rawId;
+    }
+
+    public String getKinId() {
+        return kinId;
+    }
+
+    public void setKinId(String kinId) {
+        this.kinId = kinId;
+    }
+
     private List<ErpQualityDetail> det;//质检明细的集合
     /**
      * 质检明细的集合

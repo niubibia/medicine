@@ -1,4 +1,4 @@
-package com.newer.medicine.server;
+package com.newer.medicine.service;
 
 import com.newer.medicine.domain.ErpWarehouse;
 import com.newer.medicine.mapper.ErpWarehouseMapper;

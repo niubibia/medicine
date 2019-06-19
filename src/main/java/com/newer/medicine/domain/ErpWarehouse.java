@@ -1,12 +1,14 @@
 package com.newer.medicine.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 仓库表
  */
-public class ErpWarehouse {
+public class ErpWarehouse implements Serializable {
 
+    private static final long serialVersionUID = 7848486918626702103L;
     private String wareId;//仓库ID
 
     private String kinId;//药品ID

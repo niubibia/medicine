@@ -1,7 +1,7 @@
 package com.newer.medicine.controller;
 
 import com.newer.medicine.domain.ErpWarehouse;
-import com.newer.medicine.server.ErpWarehouseService;
+import com.newer.medicine.service.ErpWarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +59,7 @@ public class ErpWareHouseController {
         if(rawName==null){
             rawName = "";
         }
-        List<ErpWarehouse> erpWarehouseList = erpWarehouseService.findAllWareRaw(rawName, pageIndex, pageSize);
+        List<ErpWarehouse> erpWarehouseList = erpWarehouseService.findAllWareRaw(rawName, (pageIndex-1)*pageSize, pageSize);
         System.out.println(erpWarehouseList.toString());
         int count = erpWarehouseService.countWareRaw(rawName);
         data.put("code",0);

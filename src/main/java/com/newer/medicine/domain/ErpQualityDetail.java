@@ -1,6 +1,10 @@
 package com.newer.medicine.domain;
 
-public class ErpQualityDetail {
+import java.io.Serializable;
+import java.util.List;
+
+public class ErpQualityDetail implements Serializable {
+    private static final long serialVersionUID = 3959220713940326247L;
     private String qdetId;//质检详细表id
 
     private String quaId;//质检表id
@@ -18,7 +22,18 @@ public class ErpQualityDetail {
     private String createtime;//创建时间
     
     private String kindName;//药品名
+
     private String rawName;//原材料名
+    /*List<Erp_purchase> puc;//采购订单表
+
+    public List<Erp_purchase> getPuc() {
+        return puc;
+    }
+
+    public void setPuc(List<Erp_purchase> puc) {
+        this.puc = puc;
+    }*/
+
     /**
      * 原材料名字
      * @return

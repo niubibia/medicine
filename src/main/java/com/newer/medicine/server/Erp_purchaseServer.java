@@ -5,6 +5,9 @@ import com.newer.medicine.domain.Erp_purchase;
 import com.newer.medicine.mapper.Erp_purchaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,4 +30,22 @@ public class Erp_purchaseServer {
         return erp_purchaseMapper.selectById(PURC_ID);
     }
 
+    /**
+     * 根据采购id查询详细信息
+     * @param purcId 采购id
+     * @return
+     */
+    public Erp_purchase selectByPrimaryKey(String purcId){
+        return erp_purchaseMapper.selectByPrimaryKey(purcId);
+    }
+
+    /**
+     * 修改采购状态
+     * @param erpPurchase
+     * @return
+     */
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+    public int updPurchase(Erp_purchase erpPurchase){
+        return erp_purchaseMapper.updPurchase(erpPurchase);
+    }
 }
