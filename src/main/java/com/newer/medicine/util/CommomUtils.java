@@ -3,9 +3,13 @@
  */
 package com.newer.medicine.util;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
-
+ 
 /**
  * 定义常量类,需要使用的常量在这里取到
  * @author liandyao
