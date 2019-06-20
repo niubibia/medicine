@@ -27,7 +27,7 @@ public class Erp_purchaseController {
     @Autowired
     private Erp_purchase_detailsService erp_purchase_detailsService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "selectErpApplyasset",method = RequestMethod.GET)
     public Map<String,Object> selectErp_applyasset(@RequestParam(value = "PURC_TITLE",required = false)String PURC_TITLE,
                                                    @RequestParam(value = "PURC_NAME",required = false)String PURC_NAME,
