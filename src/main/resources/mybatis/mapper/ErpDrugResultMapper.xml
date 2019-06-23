@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.medicine.mapper.ErpDrugResultMapper">
+    <resultMap id="BaseResultMap" type="ErpDrugResult" >
+        <id column="DRUG_RES_ID" property="drugResId" jdbcType="VARCHAR" />
+        <result column="RES_ID" property="resId" jdbcType="VARCHAR" />
+        <result column="RAW_ID" property="rawId" jdbcType="VARCHAR" />
+        <result column="KIN_ID" property="kinId" jdbcType="VARCHAR" />
+        <!-- 一对多关系   property 属性值   ofType 集合类型   原材料对药效的关系-->
+        <collection property="res" ofType="ErpResuit">
+            <id column="RES_ID" property="resId" jdbcType="VARCHAR" />
+            <result column="RES_SERIAL" property="resSerial" jdbcType="VARCHAR" />
+            <result column="RES_NAME" property="resName" jdbcType="VARCHAR" />
+            <result column="ISVA" property="isva" jdbcType="INTEGER" />
+            <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+            <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+            <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    
+    <select id="selectByRawId" resultMap="BaseResultMap">
+        select * from erp_drug_result where RAW_ID=#{rawId}
+    </select>
+    <select id="selectByResId" resultMap="BaseResultMap">
+        select * from erp_drug_result where RES_ID= #{resId}
+    </select>
+    
+    <delete id="deleteById" parameterType="String">
+        delete from erp_drug_result where DRUG_RES_ID= #{drugResId}
+    </delete>
+
+    <insert id="insertSelective" parameterType="ErpDrugResult" >
+        <selectKey keyProperty="drugResId" order="BEFORE" resultType="java.lang.String">
+            select UUID()
+        </selectKey>
+        insert into erp_drug_result
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="drugResId != null" >
+                DRUG_RES_ID,
+            </if>
+            <if test="resId != null" >
+                RES_ID,
+            </if>
+            <if test="rawId != null" >
+                RAW_ID,
+            </if>
+            <if test="kinId != null" >
+                KIN_ID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="drugResId != null" >
+                #{drugResId,jdbcType=VARCHAR},
+            </if>
+            <if test="resId != null" >
+                #{resId,jdbcType=VARCHAR},
+            </if>
+            <if test="rawId != null" >
+                #{rawId,jdbcType=VARCHAR},
+            </if>
+            <if test="kinId != null" >
+                #{kinId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+</mapper>
