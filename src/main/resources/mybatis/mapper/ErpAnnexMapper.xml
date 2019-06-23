@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.medicine.mapper.ErpAnnexMapper">
+  <resultMap id="BaseResultMap" type="com.newer.medicine.domain.ErpAnnex">
+    <id column="ANNEX_ID" jdbcType="VARCHAR" property="annexId" />
+    <result column="ANNEX_NUMBER" jdbcType="VARCHAR" property="annexNumber" />
+    <result column="ANNEX_NAME" jdbcType="VARCHAR" property="annexName" />
+    <result column="ANNEX_ADD" jdbcType="VARCHAR" property="annexAdd" />
+    <result column="ANNEX_PHONE" jdbcType="VARCHAR" property="annexPhone" />
+    <result column="ANNEX_PRICE" jdbcType="DECIMAL" property="annexPrice" />
+    <result column="ANNEX_BOSS" jdbcType="VARCHAR" property="annexBoss" />
+    <result column="ANNEX_TIME" jdbcType="VARCHAR" property="annexTime" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="ISVA" jdbcType="INTEGER" property="isva" />
+    <result column="CREATETIME" jdbcType="VARCHAR" property="createtime" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <select id="selectAllAnnexxxx" resultMap="BaseResultMap">
+    select * from erp_annex
+    <where>
+      ISVA=1
+      <if test="key!=null and key!=''">
+          and (ANNEX_NUMBER like concat('%',concat(#{key},'%'))
+        or ANNEX_NAME like concat('%',concat(#{key},'%'))
+        or ANNEX_ADD like concat('%',concat(#{key},'%'))
+        or ANNEX_PHONE like concat('%',concat(#{key},'%'))
+        or ANNEX_BOSS like concat('%',concat(#{key},'%')) )
+      </if>
+      <if test="annexTime!=null and annexTime!=''">
+        and ANNEX_TIME=#{annexTime}
+      </if>
+      limit #{page},#{limit}
+    </where>
+  </select>
+
+  <select id="selectAllCountttt" resultType="java.lang.Integer">
+    select count(*) from erp_annex
+    <where>
+      ISVA=1
+      <if test="key!=null and key!=''">
+        and (ANNEX_NUMBER like concat('%',concat(#{key},'%'))
+        or ANNEX_NAME like concat('%',concat(#{key},'%'))
+        or ANNEX_ADD like concat('%',concat(#{key},'%'))
+        or ANNEX_PHONE like concat('%',concat(#{key},'%'))
+        or ANNEX_BOSS like concat('%',concat(#{key},'%')) )
+      </if>
+      <if test="annexTime!=null and annexTime!=''">
+        and ANNEX_TIME=#{annexTime}
+      </if>
+    </where>
+  </select>
+
+  <update id="updateAllAnnexxxx" parameterType="ErpAnnex">
+    update erp_annex set `ANNEX_NAME`=#{annexName},`ANNEX_ADD`=#{annexAdd},`ANNEX_PHONE`=#{annexPhone},`ANNEX_PRICE`=#{annexPrice},`ANNEX_BOSS`=#{annexBoss} where `ANNEX_ID`=#{annexId}
+  </update>
+
+  <insert id="insertAllAnnexxxx" parameterType="ErpAnnex">
+    insert into erp_annex(`ANNEX_ID`,ANNEX_NUMBER,ANNEX_NAME,ANNEX_ADD,ANNEX_PHONE,ANNEX_PRICE,ANNEX_BOSS,ANNEX_TIME,ISVA,CREATER,CREATETIME) values (#{annexId},#{annexNumber},#{annexName},#{annexAdd},#{annexPhone},#{annexPrice},#{annexBoss},#{annexTime},1,#{creater},#{createtime})
+  </insert>
+
+  <update id="deleteAllAnnexxxx" parameterType="java.lang.String">
+    update erp_annex set ISVA=0 where ANNEX_ID=#{annexId}
+  </update>
+</mapper>

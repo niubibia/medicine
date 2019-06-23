@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.newer.medicine.mapper.ErpKindsTypeMapper">
-    <resultMap id="BaseResultMap" type="ErpKindsType">
-        <id column="TYPE_ID" property="typeId" jdbcType="VARCHAR" />
-        <result column="TYPE_SERIAL" property="typeSerial" jdbcType="VARCHAR" />
-        <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
-        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
-        <result column="CREATER" property="creater" jdbcType="VARCHAR" />
-        <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
-    </resultMap>
+
+  <resultMap id="BaseResultMap" type="com.newer.medicine.domain.ErpKindsType">
+    <id column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
+    <result column="TYPE_SERIAL" jdbcType="VARCHAR" property="typeSerial" />
+    <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="CREATETIME" jdbcType="VARCHAR" property="createtime" />
+  </resultMap>
+  <select id="selectAllKindTypeee" resultMap="BaseResultMap">
+    select * from erp_kinds_type
+    <where>
+      1=1
+      <if test="key!=null and key!=''">
+        and (TYPE_SERIAL like concat('%',concat(#{key},'%'))
+        or TYPE_NAME like concat('%',concat(#{key},'%'))
+        or REMARK like concat('%',concat(#{key},'%'))
+        )
+      </if>
+      limit #{page},#{limit}
+    </where>
+  </select>
+
+  <select id="selectAllKindTypeeeCount" resultType="java.lang.Integer">
+    select count(*) from erp_kinds_type
+    <where>
+      1=1
+      <if test="key!=null and key!=''">
+        and (TYPE_SERIAL like concat('%',concat(#{key},'%'))
+        or TYPE_NAME like concat('%',concat(#{key},'%'))
+        or REMARK like concat('%',concat(#{key},'%'))
+        )
+      </if>
+    </where>
+  </select>
     <select id="findAllKindsType" resultMap="BaseResultMap">
         select * from erp_kinds_type
     </select>

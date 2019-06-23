@@ -1,4 +1,5 @@
 package com.newer.medicine.domain;
+
 /**
  * 类型
  * @author 大晶儿
