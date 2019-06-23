@@ -8,6 +8,7 @@ import com.newer.medicine.mapper.Erp_purchase_detailsMapper;
 import com.newer.medicine.server.ErpLedgyrService;
 import com.newer.medicine.server.Erp_KeidsServer;
 import com.newer.medicine.server.Erp_purchaseServer;
+import com.newer.medicine.service.ErpRawService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class ApplicationTests {
  private Erp_purchase_detailsMapper erp_purchase_detailsMapper;
  @Autowired
  private ErpLedgyrMapper erpLedgyrMapper;
+ @Autowired
+ private ErpRawService erpRawService;
  @Test
  public void add3(){
    List<ErpLedgyr> ledgyrList=erpLedgyrMapper.selectErpLedger(new Date(),1,2);
@@ -50,7 +53,8 @@ public class ApplicationTests {
     }
 @Test
     public void add(){
-
+    List<ErpRaw> erpRawList = erpRawService.selectAllRaw("",0,10);
+    System.out.println(erpRawList.size());
 }
 
 }
