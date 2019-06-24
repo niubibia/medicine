@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <title>详细详细</title>
+  <link rel="stylesheet" href="../static/h-ui/css/H-ui.min.css">
+  <link rel="stylesheet" href="../static/h-ui.admin/css/H-ui.admin.css">
+  <link rel="stylesheet" href="../static/Hui-iconfont/1.0.8/iconfont.css">
+  <link rel="stylesheet" href="../static/h-ui.admin/skin/default/skin.css" id="skin">
+  <link rel="stylesheet" href="../static/h-ui.admin/css/style.css">
+</head>
+<body>
+<h1 id="test"></h1>
+<div class="page-container">
+
+  <div class="mt-20">
+    <table class="table table-border table-bordered table-hover table-bg table-sort">
+      <thead>
+      <tr class="text-c">
+        <th  width="50">支出金额</th>
+        <th width="80">定购商品总数</th>
+        <th width="70">定购商品总价格</th>
+        <th width="70">定购日期</th>
+      </tr>
+      </thead>
+
+      <tbody>
+
+
+      </tbody>
+    </table>
+
+  </div>
+</div>
+<script src="../res/js/hospital.js"></script>
+<script src="../res/js/jquery-3.3.1.min.js"></script>
+<script>
+  $(()=>{
+      var gyrId=GetQueryString("id");
+      load(gyrId)
+  })
+
+
+    function GetQueryString(id){
+        var reg = new RegExp("(^|&)"+ id +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+
+
+function load(gyrId) {
+
+    $.ajax({
+        type:"GET",
+        url:HOST_URL+"selectFdproformByGYRID",
+        data:{
+            GYR_ID:gyrId
+        },
+        dataType:"json",
+        success:function (data) {
+            console.log(data);
+            let s="";
+            s+=`
+             <tr class="text-c">
+        <th  width="50">${data.gyrPrice}</th>
+        <th width="80">${data.fdproWarecount}</th>
+        <th width="70">${data.fdproSumprice}</th>
+         <th width="70">${data.fdproTime}</th>
+      </tr>
+
+            `
+            $("tbody").append(s)
+        }
+
+    })
+}
+
+
+
+
+
+</script>
+</body>
+
+</html>

@@ -194,4 +194,8 @@
       BANK_ISVA = #{bankIsva,jdbcType=INTEGER}
     where BANK_ID = #{bankId,jdbcType=VARCHAR}
   </update>
+  <select id="selectSerial" resultType="java.lang.String" parameterType="java.lang.String">
+		select BANK_NUMBER from erp_bank where BANK_NUMBER like
+		concat(concat('%', #{date}), '%') ORDER BY CREATETIME DESC LIMIT 1;
+	</select>
 </mapper>

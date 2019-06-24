@@ -28,10 +28,9 @@
                            autocomplete="off">
                 </div>
                 <button class="layui-btn" data-type="reload" onclick="priesol()">搜索</button>
-
             </div>
 
-            <table class="layui-hide" id="LAY_table_user" lay-filter="kindswar">
+            <table class="layui-table" id="LAY_table_user" lay-filter="kindswar">
 
 
             </table>
@@ -42,7 +41,7 @@
                        autocomplete="off">
             </div>
             <button class="layui-btn" data-type="reload" onclick="rawsousuo()">搜索</button>
-            <table class="layui-hide"  lay-filter="rawdswar" id="LAY_table_raw">
+            <table class="layui-hide" lay-filter="rawdswar" id="LAY_table_raw">
 
             </table>
 
@@ -51,7 +50,7 @@
     </div>
 </div>
 <div id="xq-div" style="display: none; margin: 2%;">
-    <table class="layui-table"  lay-skin="nob" >
+    <table class="layui-table" lay-skin="nob">
         <tbody id="xq-purSkin">
         </tbody>
     </table>
@@ -63,234 +62,293 @@
     </div>
 </div>
 <script>
-    layui.use('element', function(){
+    $(() => {
+        //loadWarehouseKind();
+    })
+    //搜索
+    /*function priesol() {
+        loadWarehouseKind();
+    }*/
+    //加载库存药品
+    /* function loadWarehouseKind(){
+         var kindName = $("#kindName").val();
+         $.ajax({
+             type:"get",
+             url:"http://127.0.0.1:8087/api/findAllWareKind",
+             data:{kindName:kindName},
+             dataType:"json",
+             success:function (data) {
+                 $("tbody").empty()
+                 console.log(data);
+                 var html=``
+                 $.each(data,function (index,obj) {
+                     var remark = ''
+                    if(obj.remark){
+                         remark = ''
+                    }
+                     html+=`
+                     <tr>
+                         <td style="width: 180px;text-align: center">${obj.kinName}</td>
+                         <td style="width: 100px;text-align: center">${obj.wareNum}</td>
+                         <td style="width: 100px;text-align: center">${obj.kinPrice}</td>
+                         <td style="width: 180px;text-align: center">${obj.createtime}</td>
+                         <td style="width: 180px;text-align: center">${remark}</td>
+                         <td style="width: 120px;text-align: center">
+                             <div class="layui-table-cell laytable-cell-1-5">
+                             <a class="layui-btn layui-btn-mini" lay-event="buredit" onclick="kindIndevtDetail('${obj.wareId}')">查看详情</a>
+                             </div>
+                         </td>
+                     </tr>
+                     `
+                 })
+                 $("tbody").append(html)
+             }
+         })
+     }
+     function kindIndevtDetail(wareId) {
+         console.log(wareId);
+         localStorage.setItem("wareId",wareId);
+         window.open("IndevtDetail.html", 'newwindow', 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, ' +
+             'scrollbars=no, resizable=no,location=no, status=no');
+     }*/
+    layui.use('element', function () {
         var $ = layui.jquery
-            ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
 
         //触发事件
         var active = {
-            tabChange: function(){
+            tabChange: function () {
                 //切换到指定Tab项
                 element.tabChange('demo', '22'); //切换到：用户管理
             }
         };
-
-
     });
     var table;
 
-    layui.use('table', function() {
+    layui.use('table', function () {
         table = layui.table;
-        //工具条
-        //监听工具条
-        table.on('tool(kindswar)', function(obj){
+        //查询所有库存药品
+        table.render({
+            //对象表格的id
+            elem: '#LAY_table_user'
+            //请求路径
+            , url: 'http://127.0.0.1:8087/api/findAllWareKind'
+            //数据
+            , cols: [[{
+                field: 'kinName',
+                title: '药品名',
+                width: 180,
+                align: 'center',
+                sort: true
+            }, {
+                field: 'wareNum',
+                title: '库存量/kg',
+                width: 100,
+                sort: true,
+                align: 'center'
+            }, {
+                field: 'kinPrice',
+                title: '单价/元',
+                width: 100,
+                align: 'center',
+                sort: true
+            }, {
+                field: 'createtime',
+                title: '创建时间',
+                width: 180,
+                align: 'center',
+                sort: true,
+            }, {
+                field: 'remark',
+                title: '备注',
+                width: 180,
+                align: 'center'
+            }, {
+                toolbar: '#barDemo',
+                title: '操作',
+                width: 120,
+                align: 'center',
+                sort: true,
+                fixed: 'right'
+            }
+            ]],
+            id: "kinds"
+            //开启分页
+            , page: true
+        });
+        // 加载库存原材料
+        table.render({
+            //对象表格的id
+            elem: '#LAY_table_raw'
+            //请求路径
+            , url: 'http://127.0.0.1:8087/api/findAllWareRaw'
+            //数据
+            , cols: [[{
+                field: 'rawName',
+                title: '原材料名',
+                width: 180,
+                align: 'center',
+                sort: true
+            }, {
+                field: 'wareNum',
+                title: '库存量/kg',
+                width: 100,
+                // sort: true,
+                align: 'center'
+            }, {
+                field: 'rawPrice',
+                title: '单价/元',
+                width: 100,
+                align: 'center',
+                sort: true
+            }, {
+                field: 'createtime',
+                title: '创建时间',
+                width: 180,
+                align: 'center',
+                sort: true,
+            }, {
+                field: 'remark',
+                title: '备注',
+                width: 180,
+                align: 'center'
+            }, {
+                toolbar: '#barDemo',
+                title: '操作',
+                width: 120,
+                align: 'center',
+                sort: true,
+                fixed: 'right'
+            }
+            ]],
+            id: "raws",
+            //开启分页
+            page: true
+        });
+        //药品库存详细信息
+        table.on('tool(kindswar)', function (obj) {
             var data = obj.data;//得到当前行的数据
-            if(obj.event === 'buredit'){//判断点击的是那个按钮
-                var da = {"wareId":data.wareId};
-                $.post("Warehouse/selectNewKey.action",da,function(bri){
-                    var a = bri.remark;
-                    if(a==null){//备注为空就等于“”
-                        a="";
+            if (obj.event === 'buredit') {//判断点击的是那个按钮
+                var da = {"wareId": data.wareId};
+                $.ajax({
+                    url: "http://127.0.0.1:8087/api/indevtDetail",
+                    type: "get",
+                    data: da,
+                    dataType: "json",
+                    success: function (data) {
+                        // console.log(data)
+                        var a = data.remark;
+                        if (a == null) {//备注为空就等于“”
+                            a = "";
+                        }
+                        $("#xq-purSkin").html("<tr><td>商品:</td>"
+                            + "<td>" + data.kinName + "</td><td>库存总数:</td><td>" + data.wareNum + "</td></tr><tr><td>创建时间:</td><td>" + data.createtime + "</td>"
+
+                            + "</tr><tr><td>备注:</td><td>" + a + "</td></tr>"
+                        );
+                        $.each(data.det, function (i, b) {
+                            var a = "";
+                            if (b.bankId != null) {
+                                a = "入库";
+                            } else {
+                                a = "出库";
+                            }
+                            $("#xq-div-sjx").append("<ul class='layui-timeline'>" +
+                                " <li class='layui-timeline-item'>" +
+                                "<i class='layui-icon layui-timeline-axis'>&#xe63f;</i>" +
+                                "<div class='layui-timeline-content layui-text'>" +
+                                "<h3 class='layui-timeline-title'>" + b.createtime + "</h3>" +
+                                "<span>入库人:" + b.staName + "<br>入库数量:" + b.invedetNum + "<br>操作:<span class='layui-badge layui-bg-blue'>" + a + "</span> " +
+                                " </span></div></li> </ul>");
+                        })
                     }
-                    $("#xq-purSkin").html("<tr><td>商品:</td>"
-                        +"<td>"+data.kinName+"</td><td>库存总数:</td><td>"+data.wareNum+"</td></tr><tr><td>创建时间:</td><td>"+data.createtime+"</td>"
-
-                        +"</tr><tr><td>备注:</td><td>"+a+"</td></tr>"
-                    );
-                    $.each(bri.det,function(i,b){
-                        var a ="";
-                        if(b.bankId!=null){
-                            a="入库";
-                        }else{
-                            a="出库";
-                        }
-                        $("#xq-div-sjx").append("<ul class='layui-timeline'>"+
-                            " <li class='layui-timeline-item'>"+
-                            "<i class='layui-icon layui-timeline-axis'>&#xe63f;</i>"+
-                            "<div class='layui-timeline-content layui-text'>"+
-                            "<h3 class='layui-timeline-title'>"+b.cre+"</h3>"+
-                            "<span>入库人:"+b.staName+"<br>入库数量:"+b.invedetNum+"<br>操作:<span class='layui-badge layui-bg-blue'>"+a+"</span> "+
-                            " </span></div></li> </ul>");
-                    });
-                    layer.open({
-                        type: 1,
-                        title: ['详情'],
-                        content: $('#xq-div'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
-                        // btn: ['确定'], //可以无限个按钮
-                        area: ['80%','90%'],
-                        cancel:function(){
-                            $("#xq-div-sjx").html("");
-                        }
-
-                    });
-
+                })
+                layer.open({
+                    type: 1,
+                    title: ['详情'],
+                    content: $('#xq-div'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                    // btn: ['确定'], //可以无限个按钮
+                    area: ['80%', '90%'],
+                    cancel: function () {
+                        $("#xq-div-sjx").html("");
+                    }
                 });
             }
-        });
-        table.on('tool(rawdswar)', function(obj){
+        })
+        //原材料库存详细信息
+        table.on('tool(rawdswar)', function (obj) {
             var data = obj.data;//得到当前行的数据
-            if(obj.event === 'buredit'){//判断点击的是那个按钮
-                var da = {"wareId":data.wareId};
-                $.post("Warehouse/selectNewKey.action",da,function(bri){
-                    var a = bri.remark;
-                    if(a==null){//备注为空就等于“”
-                        a="";
+            if (obj.event === 'buredit') {//判断点击的是那个按钮
+                var da = {"wareId": data.wareId};
+                $.ajax({
+                    type: "get",
+                    url: "http://127.0.0.1:8087/api/indevtDetail",
+                    data: da,
+                    dataType: "json",
+                    success: function (data) {
+                        var a = data.remark;
+                        if (a == null) {//备注为空就等于“”
+                            a = "";
+                        }
+                        $("#xq-purSkin").html("<tr><td>原材料:</td>"
+                            + "<td>" + data.rawName + "</td><td>库存总数:</td><td>" + data.wareNum + "</td></tr><tr><td>创建时间:</td><td>" + data.createtime + "</td>"
+
+                            + "</tr><tr><td>备注:</td><td>" + a + "</td></tr>"
+                        );
+                        $.each(data.det, function (i, b) {
+                            var a = "";
+                            if (b.bankId != null) {
+                                a = "入库";
+                            } else {
+                                a = "出库";
+                            }
+                            $("#xq-div-sjx").append("<ul class='layui-timeline'>" +
+                                " <li class='layui-timeline-item'>" +
+                                "<i class='layui-icon layui-timeline-axis'>&#xe63f;</i>" +
+                                "<div class='layui-timeline-content layui-text'>" +
+                                "<h3 class='layui-timeline-title'>" + b.createtime + "</h3>" +
+                                "<span>入库人:" + b.staName + "<br>入库数量:" + b.invedetNum + "<br>操作:<span class='layui-badge layui-bg-blue'>" + a + "</span> " +
+                                " </span></div></li> </ul>");
+                        })
                     }
-                    $("#xq-purSkin").html("<tr><td>原材料:</td>"
-                        +"<td>"+data.rawName+"</td><td>库存总数:</td><td>"+data.wareNum+"</td></tr><tr><td>创建时间:</td><td>"+data.createtime+"</td>"
-
-                        +"</tr><tr><td>备注:</td><td>"+a+"</td></tr>"
-                    );
-                    $.each(bri.det,function(i,b){
-                        var a ="";
-                        if(b.bankId!=null){
-                            a="入库";
-                        }else{
-                            a="出库";
-                        }
-                        $("#xq-div-sjx").append("<ul class='layui-timeline'>"+
-                            " <li class='layui-timeline-item'>"+
-                            "<i class='layui-icon layui-timeline-axis'>&#xe63f;</i>"+
-                            "<div class='layui-timeline-content layui-text'>"+
-                            "<h3 class='layui-timeline-title'>"+b.cre+"</h3>"+
-                            "<span>入库人:"+b.staName+"<br>入库数量:"+b.invedetNum+"<br>操作:<span class='layui-badge layui-bg-blue'>"+a+"</span> "+
-                            " </span></div></li> </ul>");
-                    });
-                    layer.open({
-                        type: 1,
-                        title: ['详情'],
-                        content: $('#xq-div'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
-                        // btn: ['确定'], //可以无限个按钮
-                        area: ['80%','90%'],
-                        cancel:function(){
-                            $("#xq-div-sjx").html("");
-                        }
-
-                    });
-
+                })
+                layer.open({
+                    type: 1,
+                    title: ['详情'],
+                    content: $('#xq-div'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                    // btn: ['确定'], //可以无限个按钮
+                    area: ['90%', '90%'],
+                    cancel: function () {
+                        $("#xq-div-sjx").html("");
+                    }
                 });
             }
-        });
-        //方法级渲染
-        table.render({
-            elem : '#LAY_table_user',
-            url : 'Warehouse/showListKin.action',
-            method : 'POST',
-            cols : [ [ {
-                field : 'kinName',
-                title : '药品名',
-                width : 180,
-                align : 'center'
-            }, {
-                field : 'wareNum',
-                title : '库存量',
-                width : 100,
-                sort : true,
-                align : 'center'
-            }
-                ,{
-                    field : 'kinPrice',
-                    title : '单价',
-                    width : 100,
-                    align : 'center'
-                }
-                ,{
-                    field : 'createtime',
-                    title : '创建时间',
-                    width : 180,
-                    align : 'center'
-                }
-                ,{
-                    field : 'remark',
-                    title : '备注',
-                    width : 180,
-                    align : 'center'
-                }
-                ,{
-                    toolbar: '#barDemo',
-                    title : '操作',
-                    width : 120,
-                    //align : 'center',
-                    sort: true,
-                    fixed: 'right'
-                }
-
-            ] ],
-            id:"kindswa",
-            page : true
-
-        });
-        //方法级渲染
-        table.render({
-            elem : '#LAY_table_raw',
-            url : 'Warehouse/selectAllRaw.action',
-            method : 'POST',
-            cols : [ [ {
-                field : 'rawName',
-                title : '原材料名',
-                width : 100,
-                align : 'center'
-            }, {
-                field : 'wareNum',
-                title : '库存量',
-                width : 100,
-                sort : true,
-                align : 'center'
-            }
-                ,{
-                    field : 'rawPrice',
-                    title : '单价',
-                    width : 100,
-                    align : 'center'
-                }
-                ,{
-                    field : 'createtime',
-                    title : '创建时间',
-                    width : 180,
-                    align : 'center'
-                }
-                ,{
-                    field : 'remark',
-                    title : '备注',
-                    width : 180,
-                    align : 'center'
-                }
-                ,{
-                    toolbar: '#rawDemo',
-                    title : '操作',
-                    width : 120,
-                    align : 'center',
-                    sort: true,
-                    fixed: 'right'
-                }
-
-            ] ],
-            id:"rawdswa",
-            page : true
-
-        });
-
-    });
-    function rawsousuo(){
-        table.reload('rawdswa', {
+        })
+    })
+    //模糊查询药品名
+    function priesol() {
+        table.reload('kinds', {
             where: { //设定异步数据接口的额外参数，任意设
-                'priea':$("#priea").val()
+                'prie': $("#prie").val()
             }
         });
     }
-    function priesol(){
-        table.reload('kindswa', {
+
+    //模糊查询原材料
+    function rawsousuo() {
+        table.reload('raws', {
             where: { //设定异步数据接口的额外参数，任意设
-                'prie':$("#prie").val()
+                'priea': $("#priea").val()
             }
         });
     }
+
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-mini" lay-event="buredit" >查看详情</a>
+    <a class="layui-btn layui-btn-mini" lay-event="buredit">查看详情</a>
 </script>
 <script type="text/html" id="rawDemo">
-    <a class="layui-btn layui-btn-mini" lay-event="buredit" >查看详情</a>
+    <a class="layui-btn layui-btn-mini" lay-event="buredit">查看详情</a>
 </script>
 </body>
 </html>

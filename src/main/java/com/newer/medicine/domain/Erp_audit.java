@@ -2,7 +2,8 @@ package com.newer.medicine.domain;
 
 import java.io.Serializable;
 
-public class Erp_audit implements Serializable {
+public class Erp_audit implements Serializable{
+    private static final long serialVersionUID = -728046639666909480L;
     private String AUD_ID;
     private String PURC_ID;
     private String AUD_NAME;

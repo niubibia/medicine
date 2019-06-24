@@ -83,10 +83,10 @@
 
 
     function sousuo(){
-        var demoReload = $('#demoReload');
+        var demoReload = $('#demoReload').val();
         table.reload('testReload',{
             where : {
-                keywords : demoReload.val(),
+                PURC_TITLE : demoReload
             }
         })
     }
@@ -171,6 +171,13 @@
                     title:"记录",
                     area: ['500px', '300px'],
                     content:"htaa.html?id="+data.purc_ID
+                })
+            }else if (obj.event === 'pdt') {
+                layer.open({
+                    type:2,
+                    title:"重新申请",
+                    area: ['500px', '300px'],
+                    content:"htmm.html?id="+data.purc_ID+"&state="+data.state
                 })
             }
         })

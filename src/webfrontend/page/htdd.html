@@ -34,6 +34,13 @@
         </fieldset>
 
         <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单编号</label>
+            <div class="layui-input-block">
+                <input type="text" name="purcTitle" id="PURC_ID"
+                       placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+        </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">采购标题</label>
@@ -51,14 +58,14 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">原材料</label>
                 <div class="layui-input-inline">
-                    <select name="rawId" id="rawId" lay-verify="" lay-search>
-                        <option value="">请选择</option>
+                    <input type="text" name="purcTitle" id="PURC_NAME"
+                           placeholder="请输入" autocomplete="off" class="layui-input">
                     </select>
 
                 </div>
                 <div class="layui-input-inline">
                     <input name="number" lay-verify="required" placeholder="请输入数量"
-                           autocomplete="off" class="layui-input" type="text">
+                          id="PUR_TOTAL_NUMBER" autocomplete="off" class="layui-input" type="text">
                 </div>
             </div>
         </div>
@@ -72,7 +79,6 @@
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" id="submitALL" lay-submit lay-filter="sbt">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
         <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
@@ -82,9 +88,32 @@
 <script src="../res/js/hospital.js"></script>
 <script src="../res/js/jquery-3.3.1.min.js"></script>
 <script>
-    $("#submitALL").click(()=>{
+    $(()=>{
+        $("#submitALL").click(()=>{
+            $.ajax({
+                type:"POST",
+                url:HOST_URL+"insertAll",
+                data:{
+                    "PURC_ID":$("#PURC_ID").val(),
+                    "PURC_TITLE":$("#rawId").val(),
+                    "PURC_NAME":$("#PURC_NAME").val(),
+                    "PURC_TOTAL_PRICE":$("#PUR_TOTAL_NUMBER").val()
+                },
+                dataType:"json",
+                success:function (data) {
+                    console.log(data);
+                    alert(data)
+                    if (data){
+                        alert("添加成功")
+                    }else {
+                        alert("添加失败")
+                    }
+                }
 
+            })
+        })
     })
+
 </script>
 </body>
 </html>

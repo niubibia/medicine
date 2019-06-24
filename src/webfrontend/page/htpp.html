@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>审核</title>
+  <link rel="stylesheet" href="../static/h-ui/css/H-ui.min.css">
+  <link rel="stylesheet" href="../static/h-ui.admin/css/H-ui.admin.css">
+  <link rel="stylesheet" href="../static/Hui-iconfont/1.0.8/iconfont.css">
+  <link rel="stylesheet" href="../static/h-ui.admin/skin/default/skin.css" id="skin">
+  <link rel="stylesheet" href="../static/h-ui.admin/css/style.css">
+</head>
+<body>
+<h1 id="test"></h1>
+<div class="page-container">
+
+意见:
+   <textarea></textarea>
+
+
+      <button class="layui-btn" onclick="pass()" lay-submit lay-filter="sbt">审核通过</button>
+      <button type="reset" onclick="rejected(0)" class="layui-btn layui-btn-primary">审核驳回</button>
+
+
+
+
+
+</div>
+<script src="../res/js/hospital.js"></script>
+<script src="../res/js/jquery-3.3.1.min.js"></script>
+<script>
+  $(()=>{
+      var id=GetQueryString("id")
+      var state=GetQueryString("state")
+  })
+
+
+    function GetQueryString(id){
+        var reg = new RegExp("(^|&)"+ id +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+
+  function GetQueryString(state){
+      var reg = new RegExp("(^|&)"+ state+"=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg);
+      if(r!=null)return  unescape(r[2]); return null;
+  }
+
+
+  var state=GetQueryString("state")
+   function pass() {
+       $.ajax({
+           type:"PUT",
+           url:HOST_URL+"updateByPURCid",
+           data:{
+               "PURC_ID":id,
+               "STATE":state+1
+           },
+           dataType:"json",
+           success:function (data) {
+               console.log(data);
+              if (data==1){
+                  alert("审核通过")
+                  var index=parent.layer.getFrameIndex(window.name);
+                  parent.layer.close(index);//关闭当前页面
+                  window.parent.location.replace(parent.location.href)
+
+              }
+           }
+       })
+   }
+  var id=GetQueryString("id")
+function rejected(s) {
+    $.ajax({
+        type:"PUT",
+        url:HOST_URL+"updateByPURCid",
+        data:{
+            "PURC_ID":id,
+            "STATE":s
+        },
+        dataType:"json",
+        success:function (data) {
+            console.log(data);
+            if (data==1){
+                alert("审核驳回")
+                var index=parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);//关闭当前页面
+                window.parent.location.replace(parent.location.href)
+            }
+        }
+    })
+}
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.medicine.mapper.ErpResuitMapper">
+    <resultMap id="BaseResultMap" type="ErpResuit" >
+        <id column="RES_ID" property="resId" jdbcType="VARCHAR" />
+        <result column="RES_SERIAL" property="resSerial" jdbcType="VARCHAR" />
+        <result column="RES_NAME" property="resName" jdbcType="VARCHAR" />
+        <result column="ISVA" property="isva" jdbcType="INTEGER" />
+        <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+        <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="findAllResuit" resultMap="BaseResultMap">
+        select * from erp_resuit
+    </select>
+
+    <select id="listResuit" resultMap="BaseResultMap">
+        select * from erp_resuit
+        <where>
+            <if test="keyWord!=null and keyWord !=''">
+                res_serial like concat('%',concat(#{keyWord},'%'))
+            </if>
+            <if test="keyWord!=null and keyWord !=''">
+              or  res_name like concat('%',concat(#{keyWord},'%'))
+            </if>
+            <if test="keyWord!=null and keyWord !=''">
+              or  remark like concat('%',concat(#{keyWord},'%'))
+            </if>
+        </where>
+        limit #{page},#{limit}
+    </select>
+    <select id="listResuitCount" resultType="int">
+        select count(*) from erp_resuit
+        <where>
+            <if test="keyWord!=null and keyWord !=''">
+                res_serial like concat('%',concat(#{keyWord},'%'))
+            </if>
+            <if test="keyWord!=null and keyWord !=''">
+                or  res_name like concat('%',concat(#{keyWord},'%'))
+            </if>
+            <if test="keyWord!=null and keyWord !=''">
+                or  remark like concat('%',concat(#{keyWord},'%'))
+            </if>
+        </where>
+    </select>
+
+    <update id="updResuit" parameterType="ErpResuit">
+        update erp_resuit
+        <set>
+            <if test="resSerial!=null and resSerial!=''">
+                res_serial = #{resSerial},
+            </if>
+            <if test="resName!=null and resName!=''">
+                res_name = #{resName},
+            </if>
+            <if test="isva!=null and isva!=''">
+                isva = #{isva},
+            </if>
+            <if test="creater!=null and creater!=''">
+                creater = #{creater},
+            </if>
+            <if test="createtime!=null and createtime!=''">
+                creatertime = #{creatertime},
+            </if>
+            <if test="remark!=null and remark!=''">
+                remark = #{remark}
+            </if>
+        </set>
+        where res_id = #{resId}
+    </update>
+
+    <insert id="insertResuit" parameterType="ErpResuit">
+        insert into erp_resuit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resId!=null">
+                res_id,
+            </if>
+            <if test="resSerial!=null">
+                res_serial,
+            </if>
+            <if test="resName!=null">
+                res_name,
+            </if>
+            <if test="isva!=null">
+                isva,
+            </if>
+            <if test="creater!=null">
+                creater,
+            </if>
+            <if test="createtime!=null">
+                createtime,
+            </if>
+            <if test="remark!=null">
+                remark
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="resId!=null">
+                #{resId},
+            </if>
+            <if test="resSerial!=null">
+                #{resSerial},
+            </if>
+            <if test="resName!=null">
+                #{resName},
+            </if>
+            <if test="isva!=null">
+                #{isva},
+            </if>
+            <if test="creater!=null">
+                #{creater},
+            </if>
+            <if test="createtime!=null">
+                #{createtime},
+            </if>
+            <if test="remark!=null">
+                #{remark}
+            </if>
+        </trim>
+    </insert>
+    <select id="selectSerial" resultType="java.lang.String" parameterType="java.lang.String">
+		select RES_SERIAL from erp_resuit where RES_SERIAL like
+		concat(concat('%', #{date}), '%') ORDER BY CREATETIME DESC LIMIT 1;
+	</select>
+</mapper>

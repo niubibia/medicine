@@ -4,6 +4,31 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.newer.medicine.mapper.Erp_purchaseMapper">
+    <resultMap id="BaseResultMap" type="Erp_purchase">
+        <id column="PURC_ID" property="PURC_ID" jdbcType="VARCHAR" />
+        <result column="PURC_SERIAL" property="PURC_SERIAL" jdbcType="VARCHAR" />
+        <result column="PURC_TITLE" property="PURC_TITLE" jdbcType="VARCHAR" />
+        <result column="PURC_NAME" property="PURC_NAME" jdbcType="VARCHAR" />
+        <result column="STATE" property="STATE" jdbcType="INTEGER" />
+        <result column="PURC_TIME" property="PURC_TIME" jdbcType="VARCHAR" />
+        <result column="CREATER" property="CREATE" jdbcType="VARCHAR" />
+        <result column="CREATETIME" property="CREATETIME" jdbcType="VARCHAR" />
+        <result column="ISVA" property="ISVA" jdbcType="INTEGER" />
+        <result column="PURC_TOTAL_PRICE" property="PUR_TOTAL_PRICE"
+                jdbcType="DOUBLE" />
+        <result column="PUR_TOTAL_NUMBER" property="PUR_TOTAL_NUMBER"></result>
+        <collection property="det" ofType="ErpPurchaseDetails">
+            <id column="PUR_DET_ID" property="purDetId" jdbcType="VARCHAR" />
+            <result column="PURC_ID" property="purcId" jdbcType="VARCHAR" />
+            <result column="RAW_ID" property="rowId" jdbcType="VARCHAR" />
+            <result column="PUR_DET_SERIAL" property="purDetSerial" jdbcType="VARCHAR" />
+            <result column="PUR_TOTAL_NUMBER" property="purcTotalNumber" jdbcType="INTEGER" />
+            <result column="PUR_TOTAL_PRICE" property="purcTotalPrice" jdbcType="DOUBLE" />
+            <result column="RAW_NAME" property="rawName" jdbcType="VARCHAR" />
+            <result column="KIN_NAME" property="kinName" jdbcType="VARCHAR" />
+            <result column="KIN_ID" property="kinId" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
     <select id="selectErpApplyasset" resultType="com.newer.medicine.domain.Erp_purchase">
 select*from erp_purchase
 <where>
@@ -19,6 +44,49 @@ select*from erp_purchase
     </if>
 </where>
     </select>
+    <!--根据采购id查询信息-->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select p.*,pu.* ,r.RAW_NAME,k.KIN_NAME from erp_purchase p,erp_purchase_details pu
+        left join erp_raw r on pu.RAW_ID = r.RAW_ID
+        left join erp_kinds k on pu.RAW_ID = k.KIN_ID
+        where p.PURC_ID = pu.PURC_ID and p.PURC_ID = #{purcId}
+    </select>
+    <!--修改信息-->
+    <update id="updPurchase" parameterType="Erp_purchase">
+        update erp_purchase
+        <set>
+            <if test="PURC_SERIAL!=null and PURC_SERIAL!=''">
+                PURC_SERIAL = #{PURC_SERIAL}
+            </if>
+            <if test="PURC_TITLE!=null and PURC_TITLE!=''">
+                PURC_SERIAL = #{PURC_SERIAL}
+            </if>
+            <if test="PURC_NAME!=null and PURC_NAME!=''">
+                PURC_NAME = #{PURC_NAME}
+            </if>
+            <if test="STATE!=null and STATE !=''">
+                STATE = #{STATE}
+            </if>
+            <if test="PURC_TIME and PURC_TIME!=''">
+                PURC_TIME =#{PURC_TIME}
+            </if>
+            <if test="CREATE!=null and CREATE !=''">
+                CREATER = #{CREATE}
+            </if>
+            <if test="CREATETIME!=null and CREATETIME !=''">
+                CREATETIME = #{CREATETIME}
+            </if>
+            <if test="ISVA!=null and ISVA !=''">
+                ISVA = #{ISVA}
+            </if>
+            <if test="PUR_TOTAL_PRICE!=null and PUR_TOTAL_PRICE !=''">
+                PURC_TOTAL_PRICE = #{PURC_TOTAL_PRICE}
+            </if>
+        </set>
+        <where>
+            PURC_ID = #{PURC_ID}
+        </where>
+    </update>
 
  <!-- <cache
     eviction="LRU"
