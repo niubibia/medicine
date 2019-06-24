@@ -21,6 +21,16 @@ public class ErpStaff {
     private String createtime;
     private String creater;
     private String remark;
+    private String roleName;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
     //部门名
     private String dname;
     //分店名

@@ -1,4 +1,4 @@
-package com.newer.medicine.sercurity.service;
+package com.newer.medicine.service;
 
 
 import com.newer.medicine.domain.LoadImage;

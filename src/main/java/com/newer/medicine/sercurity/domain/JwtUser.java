@@ -20,13 +20,31 @@ public class JwtUser implements UserDetails {
     private final String password;
     private final boolean isEnabled;
     private final String name;
+    private final String staId;
+    private final String annexId;
+    private final String roleName;
 
-    public JwtUser(String username, Collection<? extends GrantedAuthority> authorities, String password, boolean isEnabled, String name) {
+    public JwtUser(String username, Collection<? extends GrantedAuthority> authorities, String password, boolean isEnabled, String name,String staId,String annexId,String roleName) {
         this.username = username;
         this.authorities = authorities;
         this.password = password;
         this.isEnabled = isEnabled;
         this.name = name;
+        this.staId=staId;
+        this.annexId=annexId;
+        this.roleName=roleName;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public String getAnnexId() {
+        return annexId;
+    }
+
+    public String getStaId() {
+        return staId;
     }
 
     public String getName() {

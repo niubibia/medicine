@@ -31,7 +31,7 @@
 
   <select id="findByUsername" resultMap="BaseResultMap">
         select
-        es.*,au.ROLE_ID,au.name,au.ROLE_NAME
+        es.*,au.ROLE_ID,au.name,au.ROLE_NAME,es.sta_id
         from erp_staff es,erp_role au,erp_personel_role ua
         where es.ISVA=1 and es.sta_email=#{staEmail} and es.sta_id = ua.sta_id and ua.ROLE_ID = au.ROLE_ID
     </select>

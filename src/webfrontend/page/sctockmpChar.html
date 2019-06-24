@@ -56,7 +56,7 @@
     function loadImageSell(){
 
         $.ajax({
-            type:"post",
+            type:"get",
             url:"http://127.0.0.1:8087/api/loadSell",
             dataType:"json",
             success:function(data){
@@ -114,7 +114,7 @@
     function loadImagePay(){
 
         $.ajax({
-            type:"post",
+            type:"get",
             url:"http://127.0.0.1:8087/api/loadPay",
             dataType:"json",
             success:function(data){

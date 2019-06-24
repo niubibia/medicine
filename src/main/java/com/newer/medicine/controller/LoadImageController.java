@@ -1,19 +1,18 @@
 package com.newer.medicine.controller;
 
 import com.newer.medicine.domain.LoadImage;
-import com.newer.medicine.sercurity.service.LoadImageService;
+import com.newer.medicine.service.LoadImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author wzl
@@ -30,7 +29,7 @@ public class LoadImageController {
     private LoadImage loadImage;
 
     @ResponseBody
-    @PostMapping("/loadSell")
+    @GetMapping("/loadSell")
     public ResponseEntity<?> loadSell() {
 
         HashMap<String, ArrayList<BigDecimal>> hashMap = new HashMap<String, ArrayList<BigDecimal>>();
@@ -79,7 +78,7 @@ public class LoadImageController {
     }
 
     @ResponseBody
-    @PostMapping("/loadPay")
+    @GetMapping("/loadPay")
     public ResponseEntity<?> loadPay(){
         HashMap<String, ArrayList<BigDecimal>> hashMap = new HashMap<String, ArrayList<BigDecimal>>();
         ArrayList<BigDecimal> arrayList1 = new ArrayList<BigDecimal>();

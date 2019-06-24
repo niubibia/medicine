@@ -16,7 +16,7 @@ function removeJwtToken() {
 
 function createAuthorizationTokenHeader() {
     var token = getJwtToken();
-    // console.log(token)
+    console.log(token)
     if (token) {
         return {"Authorization": "Bearer " + token};
     } else {

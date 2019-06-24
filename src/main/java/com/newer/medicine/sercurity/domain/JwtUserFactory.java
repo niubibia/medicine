@@ -22,7 +22,10 @@ public final  class JwtUserFactory {
                  mapToGrandAuthroties(user.getAuthorities()),
                  user.getStaPwd(),
                  user.getIsva()==1?true:false,
-                user.getStaName()
+                user.getStaName(),
+                 user.getStaId(),
+                 user.getAnnexId(),
+                 user.getRoleName()
          );
     }
 
